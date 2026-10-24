@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GNT Studio | Invoice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GNT Beauty Studio — Invoice</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -14,293 +14,254 @@
   --maroon: #7A1E2C;
   --cream: #F4E8D8;
   --gold: #D8B16A;
-  --white: #fffdf9;
-  --ink: #332629;
-  --muted: #806e70;
-  --border: #e7d7c7;
+  --white: #fffdfa;
+  --text: #33292a;
+  --muted: #887a78;
+  --line: #e8d9c7;
 }
-
 * { box-sizing: border-box; }
-
 body {
   margin: 0;
-  background: var(--cream);
-  color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-               Arial, sans-serif;
+  background: #f5efe8;
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
 }
-
-button, input, select { font: inherit; }
-button { cursor: pointer; }
-
-.topbar {
+header {
   background: var(--maroon);
-  color: white;
-  padding: 22px 16px;
+  color: var(--cream);
   text-align: center;
+  padding: 26px 16px 22px;
+  border-bottom: 5px solid var(--gold);
 }
-
-.brand {
-  font-size: 27px;
-  font-weight: 900;
-  letter-spacing: 5px;
+.logo {
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--maroon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Georgia, serif;
+  font-size: 38px;
+  font-weight: bold;
 }
-
-.topbar p {
-  margin: 7px 0 0;
-  font-size: 12px;
-  letter-spacing: 2px;
+header h1 {
+  margin: 8px 0;
+  font-family: Georgia, serif;
+  font-size: clamp(22px, 5vw, 34px);
+  letter-spacing: 1px;
 }
-
+header p { margin: 8px 0 0; }
 .container {
-  width: min(1100px, 100%);
-  margin: auto;
-  padding: 20px 14px 40px;
+  width: min(100% - 24px, 900px);
+  margin: 24px auto;
 }
-
 .card {
   background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 18px;
-  box-shadow: 0 5px 20px #5b25200b;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 4px 20px #563b2410;
 }
-
 h2 {
-  margin-top: 0;
   color: var(--maroon);
+  margin: 0 0 18px;
+  font-size: 20px;
 }
-
-h3 { color: var(--maroon); }
-
 label {
   display: block;
-  font-size: 13px;
-  font-weight: 700;
-  margin: 12px 0 6px;
+  font-size: 12px;
+  letter-spacing: .7px;
+  color: var(--muted);
+  margin-bottom: 7px;
+  font-weight: bold;
 }
-
+input, select, button {
+  font: inherit;
+}
 input, select {
   width: 100%;
-  min-width: 0;
   padding: 12px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   border-radius: 9px;
   background: white;
-  color: var(--ink);
+  color: var(--text);
+  min-height: 44px;
 }
-
 input:focus, select:focus {
   outline: 2px solid var(--gold);
-  border-color: var(--gold);
+  outline-offset: 1px;
 }
-
+.field { min-width: 0; }
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
-
-.btn {
-  padding: 12px 16px;
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.info-block {
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--line);
+}
+.info-value {
+  font-size: 17px;
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+.invoice-number { color: var(--maroon); }
+.payment-field { margin-top: 18px; }
+.table-wrap { overflow-x: auto; margin-top: 20px; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 570px;
+}
+th {
+  background: var(--maroon);
+  color: white;
+  padding: 13px 10px;
+  text-align: left;
+  font-size: 13px;
+}
+td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 14px;
+}
+td input { min-width: 70px; }
+td .service-input { min-width: 140px; }
+.right { text-align: right; }
+.center { text-align: center; }
+button {
   border: 0;
   border-radius: 9px;
-  font-weight: 750;
+  padding: 12px 15px;
+  cursor: pointer;
+  font-weight: bold;
 }
-
-.btn-primary {
-  color: white;
+.primary {
   background: var(--maroon);
-}
-
-.btn-gold {
-  color: #35251b;
-  background: var(--gold);
-}
-
-.btn-light {
-  color: var(--maroon);
-  background: var(--cream);
-  border: 1px solid var(--border);
-}
-
-.btn-danger {
   color: white;
-  background: #9e333d;
 }
-
+.secondary {
+  background: var(--cream);
+  color: var(--maroon);
+  border: 1px solid var(--line);
+}
+.gold {
+  background: var(--gold);
+  color: #332315;
+}
+.danger {
+  background: #f7e5e5;
+  color: #9b2525;
+  padding: 8px 10px;
+}
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.service-row {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) 75px minmax(90px, 1fr) 40px;
-  gap: 8px;
-  align-items: end;
-  margin-bottom: 10px;
-}
-
-.service-row label { font-size: 11px; }
-
-.remove-btn {
-  width: 40px;
-  height: 42px;
-  border: 0;
-  border-radius: 8px;
-  background: #f7e6e4;
-  color: var(--maroon);
-  font-weight: 900;
-}
-
-.total-box {
-  background: var(--cream);
-  border-radius: 12px;
-  padding: 15px;
+  gap: 9px;
   margin-top: 18px;
 }
-
-.total-line {
+.actions button { flex: 1 1 130px; }
+.totals {
+  max-width: 390px;
+  margin: 22px 0 0 auto;
+}
+.total-row {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  padding: 5px 0;
+  padding: 10px 0;
 }
-
-.grand-total {
+.total-final {
+  border-top: 2px solid var(--gold);
+  margin-top: 5px;
+  padding-top: 17px;
+  font-size: 25px;
   color: var(--maroon);
-  border-top: 1px solid var(--gold);
-  padding-top: 12px;
-  margin-top: 8px;
-  font-size: 21px;
-  font-weight: 900;
+  font-weight: bold;
 }
-
-.small {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
+.discount-controls {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 8px;
+  width: min(100%, 250px);
 }
-
-.hidden { display: none !important; }
-
-.invoice-list-item {
-  border: 1px solid var(--border);
-  border-radius: 10px;
+.status {
   padding: 12px;
-  margin-top: 10px;
-  background: white;
+  background: var(--cream);
+  border-radius: 9px;
+  margin: 12px 0;
+  font-size: 14px;
+  overflow-wrap: anywhere;
 }
-
-.invoice-list-item strong { color: var(--maroon); }
-
-.invoice-paper {
-  background: white;
-  color: #332629;
-  width: 100%;
-  max-width: 720px;
-  margin: 20px auto;
-  padding: 34px;
-  border: 1px solid #eee2d6;
+.hidden { display: none !important; }
+.history-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
 }
-
-.invoice-head {
-  border-bottom: 4px solid var(--maroon);
-  padding-bottom: 18px;
+.history-top {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  align-items: start;
+  gap: 12px;
 }
-
-.invoice-logo {
-  font-size: 30px;
-  font-weight: 900;
-  letter-spacing: 5px;
-  color: var(--maroon);
-}
-
-.invoice-number {
-  font-size: 14px;
-  font-weight: 800;
-  color: var(--maroon);
+.history-item strong { color: var(--maroon); }
+.history-item small {
+  display: block;
+  color: var(--muted);
   margin-top: 5px;
-  overflow-wrap: anywhere;
 }
-
-.invoice-customer { margin: 22px 0; }
-
-.invoice-paper table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  font-size: 13px;
-}
-
-.invoice-paper th {
-  background: var(--maroon);
-  color: white;
-  text-align: left;
-}
-
-.invoice-paper th, .invoice-paper td {
-  padding: 10px 7px;
-  border-bottom: 1px solid #eaded2;
-  overflow-wrap: anywhere;
-}
-
-.invoice-paper .num { text-align: right; }
-
-.invoice-footer {
-  margin-top: 32px;
-  padding-top: 14px;
-  border-top: 2px solid var(--gold);
+footer {
   text-align: center;
-  font-size: 12px;
+  padding: 22px 10px;
+  color: var(--maroon);
+  border-top: 1px solid var(--line);
   line-height: 1.8;
 }
-
-.status {
-  padding: 10px 12px;
-  margin-bottom: 14px;
-  border-radius: 9px;
-  background: #fff4dc;
-  color: #68480c;
-  font-size: 13px;
-  overflow-wrap: anywhere;
+#invoicePreview { padding: 0; overflow: hidden; }
+.preview-content { padding: 24px; }
+.preview-head {
+  background: var(--maroon);
+  color: var(--cream);
+  text-align: center;
+  padding: 28px 16px;
+  border-bottom: 5px solid var(--gold);
 }
-
-.status.error {
-  background: #fbe8e8;
-  color: #8b202b;
+.preview-head .logo { width: 76px; height: 76px; font-size: 32px; }
+.preview-head h2 { color: var(--cream); font-family: Georgia, serif; }
+.preview-info { margin-top: 25px; }
+.preview-table { margin-top: 26px; }
+.preview-table table { min-width: 0; }
+.preview-table th, .preview-table td { padding: 11px 8px; }
+.preview-table th { font-size: 12px; }
+.preview-table td { overflow-wrap: anywhere; }
+.preview-footer {
+  border-top: 1px solid var(--line);
+  margin-top: 32px;
+  padding-top: 20px;
+  text-align: center;
+  color: var(--maroon);
 }
-
-.status.success {
-  background: #e7f5e9;
-  color: #225b30;
-}
-
 @media (max-width: 540px) {
-  .container { padding: 12px 9px 30px; }
-  .card { padding: 15px; }
+  .card { padding: 16px; }
   .grid { grid-template-columns: 1fr; }
-  .service-row {
-    grid-template-columns: minmax(0, 1fr) 65px;
-    gap: 8px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 12px;
+  .info-grid { gap: 14px; }
+  .info-value { font-size: 15px; }
+  .preview-content { padding: 15px; }
+  .preview-table th, .preview-table td {
+    padding: 8px 4px;
+    font-size: 11px;
   }
-  .service-row .price-field { grid-column: 1; }
-  .service-row .remove-btn { grid-column: 2; grid-row: 2; }
-  .invoice-paper { padding: 18px 12px; }
-  .invoice-logo { font-size: 23px; }
-  .invoice-paper table { font-size: 11px; }
-  .invoice-paper th, .invoice-paper td { padding: 8px 4px; }
 }
-
 @media print {
   body { background: white; }
   body * { visibility: hidden; }
@@ -310,9 +271,7 @@ input:focus, select:focus {
     left: 0;
     top: 0;
     width: 100%;
-    max-width: none;
-    margin: 0;
-    border: 0;
+    box-shadow: none;
   }
 }
 </style>
@@ -320,207 +279,205 @@ input:focus, select:focus {
 
 <body>
 
-<header class="topbar">
-  <div class="brand">GNT</div>
-  <p>GURLSNEEDTHIS.ID · BEAUTY STUDIO</p>
+<header>
+  <div class="logo">gnt</div>
+  <h1>GNT BEAUTY STUDIO</h1>
+  <p>Hair • Lashes • Nails • Spa • Wax</p>
 </header>
 
 <main class="container">
 
-  <div id="message" class="status">
-    Hubungkan ke Supabase untuk mulai menggunakan GNT Invoice.
-  </div>
+  <section class="card" id="loginCard">
+    <h2>Login GNT Invoice</h2>
+    <p>Login menggunakan akun yang sudah terdaftar di Supabase.</p>
 
-  <!-- LOGIN -->
-  <section id="loginCard" class="card">
-    <h2>GNT Invoice Login</h2>
-    <p class="small">
-      Login menggunakan akun yang sudah terdaftar di Supabase
-      Authentication dan tabel gnt_members.
-    </p>
+    <div class="field">
+      <label>EMAIL</label>
+      <input id="loginEmail" type="email" autocomplete="username"
+        placeholder="Email akun GNT">
+    </div>
 
-    <label for="email">Email</label>
-    <input id="email" type="email" autocomplete="username"
-           placeholder="Email akun GNT">
-
-    <label for="password">Password</label>
-    <input id="password" type="password"
-           autocomplete="current-password"
-           placeholder="Password akun">
+    <div class="field" style="margin-top:14px">
+      <label>PASSWORD</label>
+      <input id="loginPassword" type="password"
+        autocomplete="current-password" placeholder="Password">
+    </div>
 
     <div class="actions">
-      <button class="btn btn-primary" id="loginBtn" onclick="login()">
-        Login
-      </button>
+      <button class="primary" id="loginButton" onclick="login()">Login</button>
     </div>
+    <div id="loginMessage" class="status hidden"></div>
   </section>
 
-  <!-- APP -->
-  <div id="app" class="hidden">
+  <section id="app" class="hidden">
 
-    <section class="card">
-      <div class="grid">
+    <div class="card">
+      <div class="history-top">
         <div>
-          <h2 style="margin-bottom:5px">Invoice Studio</h2>
-          <div class="small" id="accountInfo"></div>
+          <h2 style="margin-bottom:5px">GNT Invoice</h2>
+          <div id="userLabel" style="font-size:13px;color:var(--muted)"></div>
         </div>
-        <div style="text-align:right">
-          <button class="btn btn-light" onclick="logout()">Logout</button>
-        </div>
+        <button class="secondary" onclick="logout()">Logout</button>
       </div>
-    </section>
+      <div id="appMessage" class="status hidden"></div>
+    </div>
 
     <section class="card">
-      <h2>Buat Invoice Baru</h2>
+      <h2>Data Invoice</h2>
 
       <div class="grid">
-        <div>
-          <label for="customerName">Nama pelanggan</label>
-          <input id="customerName" placeholder="Nama pelanggan">
+        <div class="field">
+          <label>NAMA CUSTOMER</label>
+          <input id="customerName" placeholder="Nama customer">
         </div>
-        <div>
-          <label for="invoiceDate">Tanggal invoice</label>
+        <div class="field">
+          <label>TANGGAL</label>
           <input id="invoiceDate" type="date">
         </div>
       </div>
 
-      <label>Nomor invoice</label>
-      <input id="invoiceNumber" readonly>
-
-      <label for="paymentMethod">Metode pembayaran</label>
-      <select id="paymentMethod">
-        <option value="QRIS">QRIS</option>
-        <option value="Cash / Tunai">Cash / Tunai</option>
-        <option value="Transfer BCA">Transfer BCA</option>
-        <option value="Debit / EDC">Debit / EDC</option>
-        <option value="Transfer bank lain">Transfer bank lain</option>
-        <option value="E-wallet">E-wallet</option>
-        <option value="Lainnya">Lainnya</option>
-      </select>
-    </section>
-
-    <section class="card">
-      <h2>Detail Layanan</h2>
-      <div id="serviceRows"></div>
-
-      <button class="btn btn-light" onclick="addService()">
-        + Tambah layanan
-      </button>
-
-      <div class="grid" style="margin-top:18px">
-        <div>
-          <label for="discount">Diskon (Rp)</label>
-          <input id="discount" type="number" min="0" value="0"
-                 oninput="calculateTotals()">
+      <div class="grid" style="margin-top:17px">
+        <div class="field">
+          <label>INVOICE NUMBER</label>
+          <input id="invoiceNumber" readonly>
         </div>
-        <div>
-          <label>Subtotal</label>
-          <input id="subtotalDisplay" readonly value="Rp0">
-        </div>
-      </div>
-
-      <div class="total-box">
-        <div class="total-line">
-          <span>Subtotal</span>
-          <strong id="subtotalText">Rp0</strong>
-        </div>
-        <div class="total-line">
-          <span>Diskon</span>
-          <strong id="discountText">Rp0</strong>
-        </div>
-        <div class="total-line grand-total">
-          <span>TOTAL</span>
-          <span id="grandTotalText">Rp0</span>
+        <div class="field">
+          <label>PAYMENT</label>
+          <select id="paymentMethod">
+            <option value="QRIS">QRIS</option>
+            <option value="Cash/Tunai">Cash/Tunai</option>
+            <option value="Transfer BCA">Transfer BCA</option>
+            <option value="Debit/EDC">Debit/EDC</option>
+            <option value="Transfer bank lain">Transfer bank lain</option>
+            <option value="E-wallet">E-wallet</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
         </div>
       </div>
 
       <div class="actions">
-        <button class="btn btn-primary" id="saveBtn" onclick="saveInvoice()">
-          Simpan Invoice
-        </button>
-        <button class="btn btn-light" onclick="resetForm()">
-          Kosongkan Form
-        </button>
+        <button class="secondary" onclick="newInvoice()">Invoice Baru</button>
       </div>
     </section>
 
     <section class="card">
-      <h2>Preview Invoice</h2>
-      <p class="small">
-        Periksa invoice sebelum mengunduh PDF atau PNG.
-      </p>
+      <h2>Layanan</h2>
 
-      <div class="actions">
-        <button class="btn btn-gold" onclick="downloadPDF()">
-          Download PDF
-        </button>
-        <button class="btn btn-light" onclick="downloadPNG()">
-          Download PNG
-        </button>
-        <button class="btn btn-light" onclick="window.print()">
-          Print
-        </button>
-      </div>
-
-      <div id="invoicePreview" class="invoice-paper">
-        <div class="invoice-head">
-          <div>
-            <div class="invoice-logo">GNT</div>
-            <div>GURLSNEEDTHIS.ID</div>
-            <div class="small">BEAUTY STUDIO · JAMBI</div>
-          </div>
-          <div style="text-align:right">
-            <strong style="color:#7A1E2C">INVOICE</strong>
-            <div id="previewDate" style="margin-top:8px"></div>
-          </div>
-        </div>
-
-        <div class="invoice-customer">
-          <div class="small">CUSTOMER</div>
-          <div id="previewCustomer"
-               style="font-size:19px;font-weight:800;margin-top:4px">
-            Nama Pelanggan
-          </div>
-
-          <!-- Nomor invoice tepat di bawah nama pelanggan -->
-          <div id="previewNumber" class="invoice-number"></div>
-        </div>
-
+      <div class="table-wrap">
         <table>
           <thead>
             <tr>
+              <th>No</th>
               <th>Layanan</th>
-              <th class="num">Qty</th>
-              <th class="num">Harga</th>
-              <th class="num">Total</th>
+              <th>Qty</th>
+              <th>Harga</th>
+              <th>Total</th>
+              <th></th>
             </tr>
           </thead>
-          <tbody id="previewItems"></tbody>
+          <tbody id="serviceRows"></tbody>
         </table>
+      </div>
 
-        <div style="width:100%;max-width:300px;margin:20px 0 0 auto">
-          <div class="total-line">
-            <span>Subtotal</span>
-            <strong id="previewSubtotal">Rp0</strong>
+      <div class="actions">
+        <button class="secondary" onclick="addService()">+ Tambah Layanan</button>
+      </div>
+
+      <div class="totals">
+        <div class="total-row">
+          <span>Subtotal</span>
+          <strong id="subtotalText">Rp0</strong>
+        </div>
+
+        <div class="total-row" style="align-items:center">
+          <div>
+            <label style="margin:0 0 8px">DISKON</label>
+            <div class="discount-controls">
+              <select id="discountType" aria-label="Jenis diskon">
+                <option value="rp">Rp</option>
+                <option value="percent">%</option>
+              </select>
+              <input id="discountValue" type="number" min="0"
+                step="any" value="0" aria-label="Nilai diskon">
+            </div>
           </div>
-          <div class="total-line">
-            <span>Diskon</span>
-            <strong id="previewDiscount">Rp0</strong>
+          <strong id="discountText">− Rp0</strong>
+        </div>
+
+        <div class="total-row total-final">
+          <span>TOTAL</span>
+          <span id="totalText">Rp0</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="saveButton" onclick="saveInvoice()">
+          Simpan Invoice
+        </button>
+        <button class="gold" onclick="downloadPDF()">Download PDF</button>
+        <button class="secondary" onclick="downloadPNG()">Download PNG</button>
+      </div>
+    </section>
+
+    <section class="card" id="invoicePreview">
+      <div class="preview-head">
+        <div class="logo">gnt</div>
+        <h2>GNT BEAUTY STUDIO</h2>
+        <p>Hair • Lashes • Nails • Spa • Wax</p>
+      </div>
+
+      <div class="preview-content">
+        <div class="info-grid preview-info">
+          <div class="info-block">
+            <label>NAMA CUSTOMER</label>
+            <div id="previewCustomer" class="info-value">—</div>
+            <div style="height:18px"></div>
+            <label>INVOICE NUMBER</label>
+            <div id="previewNumber" class="info-value invoice-number">—</div>
           </div>
-          <div class="total-line"
-               style="border-top:2px solid #D8B16A;padding-top:12px;
-                      color:#7A1E2C;font-size:18px">
-            <strong>TOTAL</strong>
-            <strong id="previewTotal">Rp0</strong>
-          </div>
-          <div class="small" style="margin-top:12px">
-            Pembayaran:
-            <strong id="previewPayment"></strong>
+
+          <div class="info-block">
+            <label>TANGGAL</label>
+            <div id="previewDate" class="info-value">—</div>
+            <div style="height:18px"></div>
+            <label>PAYMENT</label>
+            <div id="previewPayment" class="info-value">QRIS</div>
           </div>
         </div>
 
-        <div class="invoice-footer">
-          Terima kasih telah mempercayai GNT Studio ✦<br>
+        <div class="preview-table">
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Layanan</th>
+                <th class="center">Qty</th>
+                <th class="right">Harga</th>
+                <th class="right">Total</th>
+              </tr>
+            </thead>
+            <tbody id="previewRows">
+              <tr><td colspan="5" class="center">Belum ada layanan.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="totals">
+          <div class="total-row">
+            <span>Subtotal</span>
+            <strong id="previewSubtotal">Rp0</strong>
+          </div>
+          <div class="total-row">
+            <span id="previewDiscountLabel">Diskon</span>
+            <strong id="previewDiscount">− Rp0</strong>
+          </div>
+          <div class="total-row total-final">
+            <span>TOTAL</span>
+            <span id="previewTotal">Rp0</span>
+          </div>
+        </div>
+
+        <div class="preview-footer">
           Instagram: @gurlsneedthis.id<br>
           WhatsApp: 0882-8746-8970
         </div>
@@ -528,32 +485,29 @@ input:focus, select:focus {
     </section>
 
     <section class="card">
-      <h2>Riwayat Invoice</h2>
-
-      <div class="actions">
-        <button class="btn btn-light" onclick="loadHistory()">
-          Refresh Riwayat
-        </button>
+      <div class="history-top">
+        <h2 style="margin:0">Riwayat Invoice</h2>
+        <button class="secondary" onclick="loadHistory()">Refresh</button>
       </div>
-
-      <div id="historyList">
-        <p class="small">Belum memuat riwayat.</p>
-      </div>
+      <div id="historyList" style="margin-top:12px">Memuat riwayat...</div>
     </section>
 
-  </div>
+  </section>
 </main>
 
-<script>
-/* =========================================================
-   KONFIGURASI SUPABASE
-   Gunakan URL dan publishable key milik project GNT kamu.
-   Jangan pernah memasukkan service_role/secret key di sini.
-========================================================= */
+<footer>
+  GNT BEAUTY STUDIO<br>
+  Instagram: @gurlsneedthis.id · WhatsApp: 0882-8746-8970
+</footer>
 
+<script>
+/* =========================================
+   KONFIGURASI SUPABASE
+   Gunakan Project URL dan Publishable Key.
+   Jangan pernah masukkan service_role key.
+========================================= */
 const SUPABASE_URL = "https://pqhdkpejgylcvynwwuxw.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_YWzEFBFE3xCftf8xF6fLgQ_A3EDhT-B";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_YWzEFBFE3xCftf8xF6fLgQ_A3EDhT-B";
 
 const db = window.supabase.createClient(
   SUPABASE_URL,
@@ -562,546 +516,422 @@ const db = window.supabase.createClient(
 
 let currentUser = null;
 let currentRole = null;
-let savedInvoiceId = null;
+let currentInvoiceId = null;
+let currentSavedNumber = null;
+let busy = false;
 
-const rupiah = value =>
-  new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0
-  }).format(Number(value) || 0);
+const rupiah = n => new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+  maximumFractionDigits: 0
+}).format(Number(n) || 0);
 
-const todayISO = () => {
-  const d = new Date();
-  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
-  return local.toISOString().slice(0, 10);
-};
-
-function showMessage(text, type = "") {
-  const el = document.getElementById("message");
-  el.textContent = text;
-  el.className = "status" + (type ? " " + type : "");
+function showMessage(id, message) {
+  const el = document.getElementById(id);
+  el.textContent = message;
   el.classList.remove("hidden");
 }
-
-function hideMessage() {
-  document.getElementById("message").classList.add("hidden");
+function clearMessage(id) {
+  document.getElementById(id).classList.add("hidden");
 }
-
-function safeText(value) {
-  return String(value ?? "").replace(/[&<>"']/g, ch => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[ch]);
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#39;"
+  })[c]);
 }
-
-function makeInvoiceNumber() {
-  const date = todayISO().replaceAll("-", "");
-  const random = Math.random().toString(36).slice(2, 6).toUpperCase();
-  return `GNT-${date}-${random}`;
+function localISODate() {
+  const d = new Date();
+  const offset = d.getTimezoneOffset() * 60000;
+  return new Date(d.getTime() - offset).toISOString().slice(0,10);
 }
-
-function setNewInvoiceNumber() {
-  document.getElementById("invoiceNumber").value = makeInvoiceNumber();
+function formatDate(date) {
+  if (!date) return "—";
+  const d = new Date(date + "T12:00:00");
+  return d.toLocaleDateString("id-ID", {
+    day:"2-digit", month:"short", year:"numeric"
+  });
 }
+function getServices() {
+  return [...document.querySelectorAll("#serviceRows tr")].map(row => ({
+    service_name: row.querySelector(".service-input").value.trim(),
+    quantity: Math.max(1, Math.floor(Number(row.querySelector(".qty-input").value) || 1)),
+    price: Math.max(0, Number(row.querySelector(".price-input").value) || 0)
+  }));
+}
+function calculate() {
+  const items = getServices();
+  const subtotal = items.reduce((sum, x) => sum + x.quantity * x.price, 0);
+  const rawDiscount = Math.max(0, Number(document.getElementById("discountValue").value) || 0);
+  const type = document.getElementById("discountType").value;
+  const discount = Math.min(subtotal,
+    type === "percent" ? subtotal * Math.min(rawDiscount,100) / 100 : rawDiscount
+  );
+  const total = Math.max(0, subtotal - discount);
 
+  document.getElementById("subtotalText").textContent = rupiah(subtotal);
+  document.getElementById("discountText").textContent = "− " + rupiah(discount);
+  document.getElementById("totalText").textContent = rupiah(total);
+
+  document.getElementById("previewSubtotal").textContent = rupiah(subtotal);
+  document.getElementById("previewDiscount").textContent = "− " + rupiah(discount);
+  document.getElementById("previewTotal").textContent = rupiah(total);
+
+  const discountLabel = type === "percent"
+    ? "Diskon (" + Math.min(rawDiscount,100) + "%)"
+    : "Diskon";
+  document.getElementById("previewDiscountLabel").textContent = discountLabel;
+
+  document.getElementById("previewCustomer").textContent =
+    document.getElementById("customerName").value.trim() || "—";
+  document.getElementById("previewNumber").textContent =
+    document.getElementById("invoiceNumber").value || "—";
+  document.getElementById("previewDate").textContent =
+    formatDate(document.getElementById("invoiceDate").value);
+  document.getElementById("previewPayment").textContent =
+    document.getElementById("paymentMethod").value;
+
+  const previewRows = document.getElementById("previewRows");
+  const filled = items.filter(x => x.service_name);
+  previewRows.innerHTML = filled.length ? filled.map((x,i) => `
+    <tr>
+      <td>${i+1}</td>
+      <td>${escapeHTML(x.service_name)}</td>
+      <td class="center">${x.quantity}</td>
+      <td class="right">${rupiah(x.price)}</td>
+      <td class="right">${rupiah(x.quantity*x.price)}</td>
+    </tr>
+  `).join("") : '<tr><td colspan="5" class="center">Belum ada layanan.</td></tr>';
+
+  return { items, subtotal, discount, total, type, rawDiscount };
+}
+function addService(name="", quantity=1, price=0) {
+  const row = document.createElement("tr");
+  row.innerHTML = `
+    <td class="center row-number"></td>
+    <td><input class="service-input" placeholder="Nama layanan" value="${escapeHTML(name)}"></td>
+    <td><input class="qty-input" type="number" min="1" step="1" value="${quantity}"></td>
+    <td><input class="price-input" type="number" min="0" step="1000" value="${price}"></td>
+    <td class="right line-total">Rp0</td>
+    <td><button type="button" class="danger remove-row">×</button></td>
+  `;
+  row.querySelectorAll("input").forEach(input => input.addEventListener("input", updateRows));
+  row.querySelector(".remove-row").addEventListener("click", () => {
+    row.remove();
+    updateRows();
+  });
+  document.getElementById("serviceRows").appendChild(row);
+  updateRows();
+}
+function updateRows() {
+  [...document.querySelectorAll("#serviceRows tr")].forEach((row,i) => {
+    row.querySelector(".row-number").textContent = i+1;
+    const qty = Math.max(1, Math.floor(Number(row.querySelector(".qty-input").value) || 1));
+    const price = Math.max(0, Number(row.querySelector(".price-input").value) || 0);
+    row.querySelector(".line-total").textContent = rupiah(qty*price);
+  });
+  calculate();
+}
+function resetForm() {
+  currentInvoiceId = null;
+  currentSavedNumber = null;
+  document.getElementById("customerName").value = "";
+  document.getElementById("invoiceDate").value = localISODate();
+  document.getElementById("paymentMethod").value = "QRIS";
+  document.getElementById("discountType").value = "rp";
+  document.getElementById("discountValue").value = "0";
+  document.getElementById("serviceRows").innerHTML = "";
+  addService();
+  setNextNumber();
+}
+async function setNextNumber() {
+  const numberInput = document.getElementById("invoiceNumber");
+  numberInput.value = "Memuat...";
+  try {
+    const { data, error } = await db.from("invoices")
+      .select("invoice_number")
+      .order("created_at", { ascending:false })
+      .limit(100);
+    if (error) throw error;
+    let max = 0;
+    (data || []).forEach(row => {
+      const match = String(row.invoice_number || "").match(/GNT-(\d+)/i);
+      if (match) max = Math.max(max, Number(match[1]));
+    });
+    numberInput.value = "GNT-" + String(max+1).padStart(4,"0");
+  } catch (e) {
+    numberInput.value = "GNT-" + String(Date.now()).slice(-4);
+    showMessage("appMessage",
+      "Nomor invoice sementara dibuat. Periksa akses tabel invoices jika riwayat belum bisa dimuat.");
+  }
+  calculate();
+}
+function newInvoice() {
+  resetForm();
+  clearMessage("appMessage");
+}
 async function login() {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const btn = document.getElementById("loginBtn");
-
+  clearMessage("loginMessage");
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
   if (!email || !password) {
-    showMessage("Masukkan email dan password terlebih dahulu.", "error");
+    showMessage("loginMessage","Isi email dan password terlebih dahulu.");
     return;
   }
-
+  const btn = document.getElementById("loginButton");
   btn.disabled = true;
   btn.textContent = "Memproses...";
-
   try {
-    const { data, error } = await db.auth.signInWithPassword({
-      email,
-      password
-    });
-
+    const { data, error } = await db.auth.signInWithPassword({email,password});
     if (error) throw error;
-
     currentUser = data.user;
-
-    const { data: member, error: memberError } = await db
-      .from("gnt_members")
-      .select("role")
-      .eq("user_id", currentUser.id)
-      .maybeSingle();
-
-    if (memberError) throw memberError;
-
-    if (!member || !["owner", "cashier"].includes(member.role)) {
-      await db.auth.signOut();
-      currentUser = null;
-      throw new Error(
-        "Akun belum terdaftar sebagai Owner atau Cashier di gnt_members."
-      );
-    }
-
-    currentRole = member.role;
-
-    document.getElementById("loginCard").classList.add("hidden");
-    document.getElementById("app").classList.remove("hidden");
-    document.getElementById("accountInfo").textContent =
-      `${currentUser.email} · ${currentRole.toUpperCase()}`;
-
-    document.getElementById("invoiceDate").value = todayISO();
-    setNewInvoiceNumber();
-    addService();
-    updatePreview();
-    hideMessage();
-    await loadHistory();
-
-  } catch (err) {
-    showMessage("Login gagal: " + err.message, "error");
+    await enterApp();
+  } catch (e) {
+    showMessage("loginMessage","Login gagal: " + e.message);
   } finally {
     btn.disabled = false;
     btn.textContent = "Login";
   }
 }
-
+async function enterApp() {
+  const { data: member, error } = await db.from("gnt_members")
+    .select("role")
+    .eq("user_id",currentUser.id)
+    .maybeSingle();
+  if (error || !member) {
+    await db.auth.signOut();
+    currentUser = null;
+    throw new Error("Akun ini belum terdaftar sebagai anggota GNT. Periksa tabel gnt_members.");
+  }
+  currentRole = member.role;
+  document.getElementById("loginCard").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+  document.getElementById("userLabel").textContent =
+    currentUser.email + " · " + currentRole;
+  resetForm();
+  await loadHistory();
+}
 async function logout() {
   await db.auth.signOut();
   currentUser = null;
   currentRole = null;
-  savedInvoiceId = null;
   document.getElementById("app").classList.add("hidden");
   document.getElementById("loginCard").classList.remove("hidden");
-  showMessage("Kamu sudah logout.");
 }
-
-function addService(name = "", quantity = 1, price = "") {
-  const row = document.createElement("div");
-  row.className = "service-row";
-
-  row.innerHTML = `
-    <div>
-      <label>Nama layanan</label>
-      <input class="service-name" placeholder="Contoh: Gel Polish"
-        value="${safeText(name)}">
-    </div>
-    <div>
-      <label>Qty</label>
-      <input class="service-qty" type="number" min="1" step="1"
-        value="${Number(quantity) || 1}">
-    </div>
-    <div class="price-field">
-      <label>Harga (Rp)</label>
-      <input class="service-price" type="number" min="0" step="1"
-        placeholder="0" value="${price === "" ? "" : Number(price)}">
-    </div>
-    <button type="button" class="remove-btn"
-      aria-label="Hapus layanan">×</button>
-  `;
-
-  row.querySelectorAll("input").forEach(input => {
-    input.addEventListener("input", calculateTotals);
-  });
-
-  row.querySelector(".remove-btn").addEventListener("click", () => {
-    row.remove();
-    calculateTotals();
-  });
-
-  document.getElementById("serviceRows").appendChild(row);
-  calculateTotals();
-}
-
-function getItems() {
-  return [...document.querySelectorAll(".service-row")]
-    .map(row => {
-      const service_name = row.querySelector(".service-name").value.trim();
-      const quantity = Math.floor(
-        Number(row.querySelector(".service-qty").value) || 0
-      );
-      const price = Math.round(
-        Number(row.querySelector(".service-price").value) || 0
-      );
-
-      return {
-        service_name,
-        quantity,
-        price,
-        total: quantity * price
-      };
-    })
-    .filter(item => item.service_name && item.quantity > 0 && item.price >= 0);
-}
-
-function calculateTotals() {
-  const items = getItems();
-  const subtotal = items.reduce((sum, item) => sum + item.total, 0);
-  const requestedDiscount = Math.max(
-    0,
-    Math.round(Number(document.getElementById("discount").value) || 0)
-  );
-  const discount = Math.min(requestedDiscount, subtotal);
-  const total = subtotal - discount;
-
-  document.getElementById("subtotalDisplay").value = rupiah(subtotal);
-  document.getElementById("subtotalText").textContent = rupiah(subtotal);
-  document.getElementById("discountText").textContent = rupiah(discount);
-  document.getElementById("grandTotalText").textContent = rupiah(total);
-
-  updatePreview();
-
-  return { items, subtotal, discount, total };
-}
-
-function updatePreview() {
-  const customer =
-    document.getElementById("customerName").value.trim() || "Nama Pelanggan";
-  const number =
-    document.getElementById("invoiceNumber").value || "Nomor invoice";
-  const date =
-    document.getElementById("invoiceDate").value || todayISO();
-  const payment = document.getElementById("paymentMethod").value;
-
-  const items = getItems();
-  const subtotal = items.reduce((sum, item) => sum + item.total, 0);
-  const requestedDiscount = Math.max(
-    0,
-    Math.round(Number(document.getElementById("discount").value) || 0)
-  );
-  const discount = Math.min(requestedDiscount, subtotal);
-  const total = subtotal - discount;
-
-  document.getElementById("previewCustomer").textContent = customer;
-  document.getElementById("previewNumber").textContent = number;
-  document.getElementById("previewDate").textContent = date;
-  document.getElementById("previewPayment").textContent = payment;
-
-  document.getElementById("previewItems").innerHTML = items.length
-    ? items.map(item => `
-      <tr>
-        <td>${safeText(item.service_name)}</td>
-        <td class="num">${item.quantity}</td>
-        <td class="num">${rupiah(item.price)}</td>
-        <td class="num">${rupiah(item.total)}</td>
-      </tr>
-    `).join("")
-    : `<tr><td colspan="4" style="text-align:center">
-         Layanan akan muncul di sini
-       </td></tr>`;
-
-  document.getElementById("previewSubtotal").textContent = rupiah(subtotal);
-  document.getElementById("previewDiscount").textContent = rupiah(discount);
-  document.getElementById("previewTotal").textContent = rupiah(total);
-}
-
-document.getElementById("customerName").addEventListener("input", updatePreview);
-document.getElementById("invoiceDate").addEventListener("change", updatePreview);
-document.getElementById("paymentMethod").addEventListener("change", updatePreview);
-
 async function saveInvoice() {
+  clearMessage("appMessage");
   if (!currentUser) {
-    showMessage("Silakan login terlebih dahulu.", "error");
+    showMessage("appMessage","Silakan login terlebih dahulu.");
     return;
   }
+  if (busy) return;
 
-  const customerName = document.getElementById("customerName").value.trim();
-  const invoiceNumber = document.getElementById("invoiceNumber").value;
-  const invoiceDate = document.getElementById("invoiceDate").value;
-  const paymentMethod = document.getElementById("paymentMethod").value;
-  const { items, subtotal, discount, total } = calculateTotals();
+  const customer = document.getElementById("customerName").value.trim();
+  const date = document.getElementById("invoiceDate").value;
+  const invoiceNumber = document.getElementById("invoiceNumber").value.trim();
+  const payment = document.getElementById("paymentMethod").value;
+  const result = calculate();
+  const items = result.items.filter(x => x.service_name);
 
-  if (!customerName) {
-    showMessage("Nama pelanggan wajib diisi.", "error");
+  if (!customer) {
+    showMessage("appMessage","Nama customer wajib diisi.");
     return;
   }
-
+  if (!date) {
+    showMessage("appMessage","Tanggal invoice wajib diisi.");
+    return;
+  }
   if (!items.length) {
-    showMessage("Tambahkan minimal satu layanan yang valid.", "error");
+    showMessage("appMessage","Tambahkan minimal satu layanan.");
     return;
   }
 
-  const btn = document.getElementById("saveBtn");
+  busy = true;
+  const btn = document.getElementById("saveButton");
   btn.disabled = true;
   btn.textContent = "Menyimpan...";
 
   try {
-    /*
-      Nama kolom mengikuti screenshot tabel invoices:
-      invoice_number, customer_name, invoice_date,
-      payment_method, subtotal, discount, total, created_by.
-    */
-    const { data: invoice, error: invoiceError } = await db
-      .from("invoices")
-      .insert({
-        invoice_number: invoiceNumber,
-        customer_name: customerName,
-        invoice_date: invoiceDate,
-        payment_method: paymentMethod,
-        subtotal,
-        discount,
-        total,
-        created_by: currentUser.id
-      })
-      .select("id")
-      .single();
+    const invoiceData = {
+      invoice_number: invoiceNumber,
+      customer_name: customer,
+      invoice_date: date,
+      payment_method: payment,
+      subtotal: result.subtotal,
+      discount: result.discount,
+      total: result.total,
+      created_by: currentUser.id
+    };
 
+    const { data: invoice, error: invoiceError } = await db
+      .from("invoices").insert(invoiceData).select().single();
     if (invoiceError) throw invoiceError;
 
-    /*
-      Nama kolom mengikuti screenshot invoice_items:
-      invoice_id, service_name, quantity, price.
-    */
-    const itemRows = items.map(item => ({
+    const itemData = items.map(x => ({
       invoice_id: invoice.id,
-      service_name: item.service_name,
-      quantity: item.quantity,
-      price: item.price
+      service_name: x.service_name,
+      quantity: x.quantity,
+      price: x.price
     }));
 
-    const { error: itemsError } = await db
-      .from("invoice_items")
-      .insert(itemRows);
-
-    if (itemsError) {
-      showMessage(
-        "Invoice utama tersimpan, tetapi detail layanan gagal tersimpan. " +
-        "Jangan membuat invoice yang sama lagi. Detail: " + itemsError.message,
-        "error"
-      );
-      savedInvoiceId = invoice.id;
+    const { error: itemError } = await db.from("invoice_items").insert(itemData);
+    if (itemError) {
+      showMessage("appMessage",
+        "Invoice utama tersimpan, tetapi item layanan gagal disimpan: " + itemError.message +
+        ". Jangan klik Simpan lagi sebelum memeriksa riwayat.");
       await loadHistory();
       return;
     }
 
-    savedInvoiceId = invoice.id;
-
-    showMessage("Invoice berhasil disimpan ke Supabase.", "success");
+    currentInvoiceId = invoice.id;
+    currentSavedNumber = invoice.invoice_number;
+    showMessage("appMessage","Invoice " + invoice.invoice_number + " berhasil disimpan.");
     await loadHistory();
-
-  } catch (err) {
-    showMessage("Gagal menyimpan invoice: " + err.message, "error");
+    await setNextNumber();
+  } catch (e) {
+    showMessage("appMessage","Gagal menyimpan invoice: " + e.message);
   } finally {
+    busy = false;
     btn.disabled = false;
     btn.textContent = "Simpan Invoice";
   }
 }
-
 async function loadHistory() {
-  if (!currentUser) return;
-
-  const list = document.getElementById("historyList");
-  list.innerHTML = `<p class="small">Memuat riwayat invoice...</p>`;
-
+  const target = document.getElementById("historyList");
+  target.textContent = "Memuat riwayat...";
   try {
-    const { data, error } = await db
-      .from("invoices")
-      .select("id, invoice_number, customer_name, invoice_date, payment_method, subtotal, discount, total, created_at")
-      .order("created_at", { ascending: false })
-      .limit(100);
-
+    const { data, error } = await db.from("invoices")
+      .select("id,invoice_number,customer_name,invoice_date,payment_method,total,created_at")
+      .order("created_at",{ascending:false}).limit(50);
     if (error) throw error;
-
     if (!data || !data.length) {
-      list.innerHTML = `<p class="small">Belum ada invoice tersimpan.</p>`;
+      target.textContent = "Belum ada invoice tersimpan.";
       return;
     }
-
-    list.innerHTML = data.map(inv => `
-      <div class="invoice-list-item">
-        <strong>${safeText(inv.invoice_number)}</strong>
-        <div style="margin-top:6px">
-          ${safeText(inv.customer_name)}
-        </div>
-        <div class="small">
-          ${safeText(inv.invoice_date || "")} ·
-          ${safeText(inv.payment_method || "")}
-        </div>
-        <div style="font-weight:800;margin-top:7px">
-          ${rupiah(inv.total)}
-        </div>
-        <div class="actions">
-          <button class="btn btn-light"
-            onclick="viewInvoice('${inv.id}')">
-            Lihat Invoice
-          </button>
+    target.innerHTML = data.map(row => `
+      <div class="history-item">
+        <div class="history-top">
+          <div>
+            <strong>${escapeHTML(row.invoice_number)}</strong>
+            <div>${escapeHTML(row.customer_name)}</div>
+            <small>${formatDate(row.invoice_date)} · ${escapeHTML(row.payment_method)}</small>
+            <div style="margin-top:7px;font-weight:bold">${rupiah(row.total)}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <button class="secondary" onclick="openInvoice('${row.id}')">Lihat</button>
+            ${currentRole === "owner" ?
+              `<button class="danger" onclick="deleteInvoice('${row.id}','${escapeHTML(row.invoice_number)}')">Hapus</button>` : ""}
+          </div>
         </div>
       </div>
     `).join("");
-
-  } catch (err) {
-    list.innerHTML = `<p class="small">Riwayat gagal dimuat.</p>`;
-    showMessage(
-      "Gagal memuat riwayat: " + err.message +
-      ". Periksa nama kolom dan kebijakan RLS.",
-      "error"
-    );
+  } catch (e) {
+    target.textContent = "Riwayat belum bisa dimuat: " + e.message;
   }
 }
-
-async function viewInvoice(id) {
+async function openInvoice(id) {
+  clearMessage("appMessage");
   try {
-    const { data: inv, error } = await db
-      .from("invoices")
-      .select("*")
-      .eq("id", id)
-      .single();
-
+    const { data: invoice, error } = await db.from("invoices")
+      .select("*").eq("id",id).single();
     if (error) throw error;
-
-    const { data: items, error: itemError } = await db
-      .from("invoice_items")
-      .select("service_name, quantity, price")
-      .eq("invoice_id", id);
-
+    const { data: items, error: itemError } = await db.from("invoice_items")
+      .select("service_name,quantity,price").eq("invoice_id",id);
     if (itemError) throw itemError;
 
-    document.getElementById("customerName").value = inv.customer_name || "";
-    document.getElementById("invoiceDate").value =
-      inv.invoice_date || todayISO();
-    document.getElementById("invoiceNumber").value = inv.invoice_number || "";
-    document.getElementById("paymentMethod").value =
-      inv.payment_method || "Cash / Tunai";
-    document.getElementById("discount").value = inv.discount || 0;
-
+    currentInvoiceId = invoice.id;
+    currentSavedNumber = invoice.invoice_number;
+    document.getElementById("customerName").value = invoice.customer_name || "";
+    document.getElementById("invoiceDate").value = invoice.invoice_date || localISODate();
+    document.getElementById("invoiceNumber").value = invoice.invoice_number || "";
+    document.getElementById("paymentMethod").value = invoice.payment_method || "QRIS";
+    document.getElementById("discountType").value = "rp";
+    document.getElementById("discountValue").value = invoice.discount || 0;
     document.getElementById("serviceRows").innerHTML = "";
-
-    (items || []).forEach(item => {
-      addService(item.service_name, item.quantity, item.price);
-    });
-
+    (items || []).forEach(x => addService(x.service_name,x.quantity,x.price));
     if (!items || !items.length) addService();
-
-    savedInvoiceId = inv.id;
-    calculateTotals();
-    updatePreview();
-
-    document.getElementById("invoicePreview").scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-
-    showMessage(
-      "Invoice dibuka untuk dilihat. Jangan menekan Simpan Invoice " +
-      "jika tidak ingin membuat invoice baru.",
-      "success"
-    );
-
-  } catch (err) {
-    showMessage("Gagal membuka invoice: " + err.message, "error");
+    calculate();
+    showMessage("appMessage","Menampilkan invoice " + invoice.invoice_number + ". Invoice yang dibuka adalah data tersimpan; jangan simpan ulang jika tidak ingin membuat invoice baru.");
+    document.getElementById("invoicePreview").scrollIntoView({behavior:"smooth"});
+  } catch (e) {
+    showMessage("appMessage","Gagal membuka invoice: " + e.message);
   }
 }
-
-function resetForm() {
-  document.getElementById("customerName").value = "";
-  document.getElementById("invoiceDate").value = todayISO();
-  document.getElementById("paymentMethod").value = "QRIS";
-  document.getElementById("discount").value = 0;
-  document.getElementById("serviceRows").innerHTML = "";
-
-  savedInvoiceId = null;
-  setNewInvoiceNumber();
-  addService();
-  calculateTotals();
-  updatePreview();
-}
-
-async function downloadPNG() {
-  const target = document.getElementById("invoicePreview");
-
+async function deleteInvoice(id, number) {
+  if (currentRole !== "owner") {
+    showMessage("appMessage","Hanya owner yang dapat menghapus invoice.");
+    return;
+  }
+  if (!confirm("Hapus invoice " + number + "? Tindakan ini tidak bisa dibatalkan.")) return;
   try {
-    const canvas = await html2canvas(target, {
-      scale: 2,
-      backgroundColor: "#ffffff",
-      useCORS: true
-    });
-
+    const { error: itemsError } = await db.from("invoice_items").delete().eq("invoice_id",id);
+    if (itemsError) throw itemsError;
+    const { error } = await db.from("invoices").delete().eq("id",id);
+    if (error) throw error;
+    showMessage("appMessage","Invoice berhasil dihapus.");
+    await loadHistory();
+    if (currentInvoiceId === id) resetForm();
+  } catch (e) {
+    showMessage("appMessage","Gagal menghapus invoice: " + e.message);
+  }
+}
+async function downloadPNG() {
+  const el = document.getElementById("invoicePreview");
+  try {
+    const canvas = await html2canvas(el,{scale:2,backgroundColor:"#fffdfa"});
     const link = document.createElement("a");
-    link.download =
-      (document.getElementById("invoiceNumber").value || "GNT-Invoice") +
-      ".png";
+    link.download = (document.getElementById("invoiceNumber").value || "GNT-Invoice") + ".png";
     link.href = canvas.toDataURL("image/png");
     link.click();
-
-  } catch (err) {
-    showMessage("Gagal membuat PNG: " + err.message, "error");
+  } catch (e) {
+    showMessage("appMessage","Gagal membuat PNG: " + e.message);
   }
 }
-
 async function downloadPDF() {
-  const target = document.getElementById("invoicePreview");
-
+  const el = document.getElementById("invoicePreview");
   try {
-    const canvas = await html2canvas(target, {
-      scale: 2,
-      backgroundColor: "#ffffff",
-      useCORS: true
-    });
-
-    const image = canvas.toDataURL("image/png");
+    const canvas = await html2canvas(el,{scale:2,backgroundColor:"#fffdfa"});
+    const img = canvas.toDataURL("image/png");
     const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF("p", "mm", "a4");
-
-    const pageWidth = 210;
+    const pdf = new jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
     const margin = 10;
-    const width = pageWidth - margin * 2;
+    const width = pageWidth - margin*2;
     const height = canvas.height * width / canvas.width;
-
-    pdf.addImage(image, "PNG", margin, margin, width, height);
-
-    pdf.save(
-      (document.getElementById("invoiceNumber").value || "GNT-Invoice") +
-      ".pdf"
-    );
-
-  } catch (err) {
-    showMessage("Gagal membuat PDF: " + err.message, "error");
+    const finalHeight = Math.min(height,pageHeight-margin*2);
+    pdf.addImage(img,"PNG",margin,margin,width,finalHeight);
+    pdf.save((document.getElementById("invoiceNumber").value || "GNT-Invoice") + ".pdf");
+  } catch (e) {
+    showMessage("appMessage","Gagal membuat PDF: " + e.message);
   }
 }
 
-/* Memulihkan sesi bila halaman dibuka kembali. */
-(async function init() {
-  document.getElementById("invoiceDate").value = todayISO();
-  setNewInvoiceNumber();
-  updatePreview();
+["customerName","invoiceDate","paymentMethod","discountType","discountValue"]
+  .forEach(id => document.getElementById(id).addEventListener("input",calculate));
 
-  try {
-    const { data, error } = await db.auth.getSession();
-    if (error) throw error;
+document.getElementById("invoiceDate").value = localISODate();
+addService();
 
-    if (data.session) {
-      currentUser = data.session.user;
-
-      const { data: member, error: memberError } = await db
-        .from("gnt_members")
-        .select("role")
-        .eq("user_id", currentUser.id)
-        .maybeSingle();
-
-      if (memberError) throw memberError;
-
-      if (member && ["owner", "cashier"].includes(member.role)) {
-        currentRole = member.role;
-        document.getElementById("loginCard").classList.add("hidden");
-        document.getElementById("app").classList.remove("hidden");
-        document.getElementById("accountInfo").textContent =
-          `${currentUser.email} · ${currentRole.toUpperCase()}`;
-        await loadHistory();
-      } else {
-        await db.auth.signOut();
-      }
+db.auth.getSession().then(async ({data}) => {
+  if (data.session?.user) {
+    currentUser = data.session.user;
+    try {
+      await enterApp();
+    } catch (e) {
+      showMessage("loginMessage",e.message);
     }
-  } catch (err) {
-    showMessage(
-      "Sesi belum bisa dipulihkan. Silakan login kembali. " + err.message,
-      "error"
-    );
   }
-})();
-</script>
+});
 
+db.auth.onAuthStateChange((_event, session) => {
+  if (!session) {
+    currentUser = null;
+    currentRole = null;
+    document.getElementById("app").classList.add("hidden");
+    document.getElementById("loginCard").classList.remove("hidden");
+  }
+});
+</script>
 </body>
 </html>
