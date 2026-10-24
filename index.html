@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GNT Beauty Studio — Invoice</title>
+<title>GNT Invoice | Gurlsneedthis.id</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -11,927 +11,935 @@
 
 <style>
 :root {
-  --maroon: #7A1E2C;
-  --cream: #F4E8D8;
-  --gold: #D8B16A;
-  --white: #fffdfa;
-  --text: #33292a;
-  --muted: #887a78;
-  --line: #e8d9c7;
+  --maroon:#7A1E2C;
+  --cream:#F4E8D8;
+  --gold:#D8B16A;
+  --ink:#332523;
+  --muted:#847570;
+  --line:#eaded2;
 }
-* { box-sizing: border-box; }
+
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  background: #f5efe8;
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f7f2ec;
+  color:var(--ink);
 }
+button,input,select { font:inherit; }
+button { cursor:pointer; }
+.hidden { display:none!important; }
+
 header {
-  background: var(--maroon);
-  color: var(--cream);
-  text-align: center;
-  padding: 26px 16px 22px;
-  border-bottom: 5px solid var(--gold);
-}
-.logo {
-  width: 88px;
-  height: 88px;
-  margin: 0 auto 12px;
-  border-radius: 50%;
-  background: var(--cream);
-  color: var(--maroon);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: Georgia, serif;
-  font-size: 38px;
-  font-weight: bold;
+  background:var(--maroon);
+  color:white;
+  text-align:center;
+  padding:22px 15px;
 }
 header h1 {
-  margin: 8px 0;
-  font-family: Georgia, serif;
-  font-size: clamp(22px, 5vw, 34px);
-  letter-spacing: 1px;
+  margin:0;
+  letter-spacing:5px;
+  font-size:27px;
 }
-header p { margin: 8px 0 0; }
+header p {
+  margin:7px 0 0;
+  color:var(--cream);
+  font-size:11px;
+  letter-spacing:2px;
+}
+
 .container {
-  width: min(100% - 24px, 900px);
-  margin: 24px auto;
+  max-width:1050px;
+  margin:24px auto;
+  padding:0 14px 40px;
 }
 .card {
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  padding: 22px;
-  margin-bottom: 22px;
-  box-shadow: 0 4px 20px #563b2410;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px #4b28100b;
 }
-h2 {
-  color: var(--maroon);
-  margin: 0 0 18px;
-  font-size: 20px;
-}
+h2 { color:var(--maroon); margin-top:0; font-size:21px; }
+h3 { color:var(--maroon); font-size:16px; }
 label {
-  display: block;
-  font-size: 12px;
-  letter-spacing: .7px;
-  color: var(--muted);
-  margin-bottom: 7px;
-  font-weight: bold;
+  display:block;
+  margin-bottom:6px;
+  font-size:12px;
+  font-weight:bold;
+  color:#685550;
 }
-input, select, button {
-  font: inherit;
+input,select {
+  width:100%;
+  min-width:0;
+  padding:11px;
+  border:1px solid #dfd0c3;
+  border-radius:8px;
+  background:#fffdfa;
+  color:var(--ink);
 }
-input, select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  background: white;
-  color: var(--text);
-  min-height: 44px;
+input:focus,select:focus {
+  outline:2px solid #d8b16a66;
+  border-color:var(--gold);
 }
-input:focus, select:focus {
-  outline: 2px solid var(--gold);
-  outline-offset: 1px;
-}
-.field { min-width: 0; }
+.field { margin-bottom:14px; }
 .grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
 }
-.info-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
+.btn {
+  border:0;
+  border-radius:8px;
+  padding:11px 15px;
+  font-size:13px;
+  font-weight:bold;
 }
-.info-block {
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--line);
-}
-.info-value {
-  font-size: 17px;
-  font-weight: bold;
-  overflow-wrap: anywhere;
-}
-.invoice-number { color: var(--maroon); }
-.payment-field { margin-top: 18px; }
-.table-wrap { overflow-x: auto; margin-top: 20px; }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 570px;
-}
-th {
-  background: var(--maroon);
-  color: white;
-  padding: 13px 10px;
-  text-align: left;
-  font-size: 13px;
-}
-td {
-  padding: 12px 10px;
-  border-bottom: 1px solid var(--line);
-  font-size: 14px;
-}
-td input { min-width: 70px; }
-td .service-input { min-width: 140px; }
-.right { text-align: right; }
-.center { text-align: center; }
-button {
-  border: 0;
-  border-radius: 9px;
-  padding: 12px 15px;
-  cursor: pointer;
-  font-weight: bold;
-}
-.primary {
-  background: var(--maroon);
-  color: white;
-}
-.secondary {
-  background: var(--cream);
-  color: var(--maroon);
-  border: 1px solid var(--line);
-}
-.gold {
-  background: var(--gold);
-  color: #332315;
-}
-.danger {
-  background: #f7e5e5;
-  color: #9b2525;
-  padding: 8px 10px;
+.primary { background:var(--maroon); color:white; }
+.gold { background:var(--gold); color:#33231c; }
+.light { background:var(--cream); color:var(--maroon); }
+.danger { background:#a52d38; color:white; }
+button:disabled { opacity:.55; cursor:not-allowed; }
+.row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
 }
 .actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 18px;
-}
-.actions button { flex: 1 1 130px; }
-.totals {
-  max-width: 390px;
-  margin: 22px 0 0 auto;
-}
-.total-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 0;
-}
-.total-final {
-  border-top: 2px solid var(--gold);
-  margin-top: 5px;
-  padding-top: 17px;
-  font-size: 25px;
-  color: var(--maroon);
-  font-weight: bold;
-}
-.discount-controls {
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 8px;
-  width: min(100%, 250px);
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:14px;
 }
 .status {
-  padding: 12px;
-  background: var(--cream);
-  border-radius: 9px;
-  margin: 12px 0;
-  font-size: 14px;
-  overflow-wrap: anywhere;
+  margin-top:12px;
+  font-size:13px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
 }
-.hidden { display: none !important; }
+.error { color:#b42318; }
+.success { color:#247343; }
+.muted { color:var(--muted); font-size:12px; }
+.nav {
+  display:flex;
+  gap:8px;
+  margin-bottom:18px;
+}
+.nav button { flex:1; }
+
+.table-wrap { overflow-x:auto; }
+table {
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+th,td {
+  padding:10px 8px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  vertical-align:middle;
+  font-size:12px;
+}
+th { background:#faf4ed; color:var(--maroon); }
+td input,td select { padding:9px 7px; font-size:12px; }
+.num { text-align:right; white-space:nowrap; }
+
+.totals { max-width:390px; margin:18px 0 0 auto; }
+.total-row {
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:8px 0;
+  font-size:13px;
+}
+.total-row.grand {
+  border-top:2px solid var(--gold);
+  margin-top:5px;
+  padding-top:13px;
+  color:var(--maroon);
+  font-size:18px;
+  font-weight:bold;
+}
+
+/* Invoice customer: data Handled By tidak ditampilkan */
+#invoicePreview {
+  background:#fff;
+  color:#29201f;
+  width:100%;
+  max-width:760px;
+  margin:auto;
+  padding:35px;
+  border:1px solid #eee2d7;
+}
+.invoice-brand {
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding-bottom:20px;
+  border-bottom:3px solid var(--maroon);
+}
+.invoice-brand h2 {
+  margin:0;
+  font-size:27px;
+  letter-spacing:4px;
+}
+.invoice-brand p {
+  margin:7px 0 0;
+  color:#77645e;
+  font-size:11px;
+}
+.invoice-label {
+  color:var(--maroon);
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+.invoice-meta {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
+  margin:24px 0;
+}
+.meta-label {
+  color:#8a7770;
+  font-size:10px;
+  letter-spacing:1px;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+.meta-value {
+  font-size:14px;
+  font-weight:bold;
+  overflow-wrap:anywhere;
+  margin-bottom:17px;
+}
+#previewTable { min-width:0; }
+#previewTable th,#previewTable td { padding:12px 7px; font-size:11px; }
+#previewTable th {
+  background:#f8eee4;
+  border-bottom:2px solid var(--gold);
+}
+.invoice-total { width:60%; margin:22px 0 0 auto; }
+.invoice-total .total-row { font-size:12px; }
+.invoice-total .grand { font-size:17px; }
+.invoice-footer {
+  text-align:center;
+  border-top:1px solid var(--line);
+  padding-top:20px;
+  margin-top:30px;
+  font-size:11px;
+  color:#77645e;
+  line-height:1.8;
+}
 .history-item {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:14px;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
 }
-.history-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  gap: 12px;
-}
-.history-item strong { color: var(--maroon); }
-.history-item small {
-  display: block;
-  color: var(--muted);
-  margin-top: 5px;
-}
-footer {
-  text-align: center;
-  padding: 22px 10px;
-  color: var(--maroon);
-  border-top: 1px solid var(--line);
-  line-height: 1.8;
-}
-#invoicePreview { padding: 0; overflow: hidden; }
-.preview-content { padding: 24px; }
-.preview-head {
-  background: var(--maroon);
-  color: var(--cream);
-  text-align: center;
-  padding: 28px 16px;
-  border-bottom: 5px solid var(--gold);
-}
-.preview-head .logo { width: 76px; height: 76px; font-size: 32px; }
-.preview-head h2 { color: var(--cream); font-family: Georgia, serif; }
-.preview-info { margin-top: 25px; }
-.preview-table { margin-top: 26px; }
-.preview-table table { min-width: 0; }
-.preview-table th, .preview-table td { padding: 11px 8px; }
-.preview-table th { font-size: 12px; }
-.preview-table td { overflow-wrap: anywhere; }
-.preview-footer {
-  border-top: 1px solid var(--line);
-  margin-top: 32px;
-  padding-top: 20px;
-  text-align: center;
-  color: var(--maroon);
-}
-@media (max-width: 540px) {
-  .card { padding: 16px; }
-  .grid { grid-template-columns: 1fr; }
-  .info-grid { gap: 14px; }
-  .info-value { font-size: 15px; }
-  .preview-content { padding: 15px; }
-  .preview-table th, .preview-table td {
-    padding: 8px 4px;
-    font-size: 11px;
-  }
+.history-item p { margin:5px 0; font-size:12px; }
+.history-actions { display:flex; gap:7px; flex-wrap:wrap; }
+
+@media(max-width:600px) {
+  .card { padding:15px; }
+  #invoicePreview { padding:18px 12px; }
+  .invoice-brand h2 { font-size:22px; }
+  .invoice-meta { gap:12px; }
+  .meta-value { font-size:12px; }
+  .invoice-total { width:80%; }
 }
 @media print {
-  body { background: white; }
-  body * { visibility: hidden; }
-  #invoicePreview, #invoicePreview * { visibility: visible; }
+  body * { visibility:hidden; }
+  #invoicePreview,#invoicePreview * { visibility:visible; }
   #invoicePreview {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    box-shadow: none;
+    position:absolute;
+    left:0; top:0;
+    width:100%;
+    max-width:none;
+    border:0;
   }
 }
 </style>
 </head>
 
 <body>
-
 <header>
-  <div class="logo">gnt</div>
-  <h1>GNT BEAUTY STUDIO</h1>
-  <p>Hair • Lashes • Nails • Spa • Wax</p>
+  <h1>GNT</h1>
+  <p>GURLSNEEDTHIS.ID · INVOICE STUDIO</p>
 </header>
 
 <main class="container">
 
+  <!-- LOGIN -->
   <section class="card" id="loginCard">
-    <h2>Login GNT Invoice</h2>
-    <p>Login menggunakan akun yang sudah terdaftar di Supabase.</p>
-
-    <div class="field">
-      <label>EMAIL</label>
-      <input id="loginEmail" type="email" autocomplete="username"
-        placeholder="Email akun GNT">
-    </div>
-
-    <div class="field" style="margin-top:14px">
-      <label>PASSWORD</label>
-      <input id="loginPassword" type="password"
-        autocomplete="current-password" placeholder="Password">
-    </div>
-
-    <div class="actions">
-      <button class="primary" id="loginButton" onclick="login()">Login</button>
-    </div>
-    <div id="loginMessage" class="status hidden"></div>
+    <h2>Welcome to GNT Invoice</h2>
+    <p class="muted">Login menggunakan akun GNT yang sudah terdaftar.</p>
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginEmail">EMAIL</label>
+        <input id="loginEmail" type="email" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="loginPassword">PASSWORD</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="btn primary" id="loginBtn" type="submit">Login</button>
+    </form>
+    <div id="loginStatus" class="status"></div>
   </section>
 
-  <section id="app" class="hidden">
-
+  <!-- APP -->
+  <section id="appArea" class="hidden">
     <div class="card">
-      <div class="history-top">
+      <div class="row">
         <div>
-          <h2 style="margin-bottom:5px">GNT Invoice</h2>
-          <div id="userLabel" style="font-size:13px;color:var(--muted)"></div>
+          <h2 style="margin-bottom:5px">GNT Invoice Dashboard</h2>
+          <div id="userInfo" class="muted"></div>
         </div>
-        <button class="secondary" onclick="logout()">Logout</button>
+        <button id="logoutBtn" class="btn light">Logout</button>
       </div>
-      <div id="appMessage" class="status hidden"></div>
     </div>
 
-    <section class="card">
-      <h2>Data Invoice</h2>
+    <nav class="nav">
+      <button id="newTabBtn" class="btn primary">+ Buat Invoice</button>
+      <button id="historyTabBtn" class="btn light">Riwayat Invoice</button>
+    </nav>
+
+    <!-- FORM INVOICE -->
+    <section id="createSection" class="card">
+      <h2>Buat Invoice Baru</h2>
 
       <div class="grid">
         <div class="field">
-          <label>NAMA CUSTOMER</label>
+          <label for="customerName">CUSTOMER NAME</label>
           <input id="customerName" placeholder="Nama customer">
         </div>
         <div class="field">
-          <label>TANGGAL</label>
+          <label for="invoiceDate">DATE</label>
           <input id="invoiceDate" type="date">
         </div>
-      </div>
-
-      <div class="grid" style="margin-top:17px">
         <div class="field">
           <label>INVOICE NUMBER</label>
-          <input id="invoiceNumber" readonly>
+          <input value="Nomor otomatis saat disimpan" disabled>
         </div>
         <div class="field">
-          <label>PAYMENT</label>
+          <label for="paymentMethod">PAYMENT</label>
           <select id="paymentMethod">
-            <option value="QRIS">QRIS</option>
-            <option value="Cash/Tunai">Cash/Tunai</option>
-            <option value="Transfer BCA">Transfer BCA</option>
-            <option value="Debit/EDC">Debit/EDC</option>
-            <option value="Transfer bank lain">Transfer bank lain</option>
-            <option value="E-wallet">E-wallet</option>
-            <option value="Lainnya">Lainnya</option>
+            <option>QRIS</option>
+            <option>Cash / Tunai</option>
+            <option>Transfer BCA</option>
+            <option>Debit / EDC</option>
+            <option>Transfer Bank Lain</option>
+            <option>E-wallet</option>
+            <option>Lainnya</option>
           </select>
         </div>
       </div>
 
-      <div class="actions">
-        <button class="secondary" onclick="newInvoice()">Invoice Baru</button>
+      <div class="row">
+        <h3>Daftar Layanan</h3>
+        <button id="addItemBtn" type="button" class="btn light">+ Tambah Layanan</button>
       </div>
-    </section>
 
-    <section class="card">
-      <h2>Layanan</h2>
+      <p class="muted">
+        Handled By adalah catatan internal GNT dan tidak ditampilkan pada invoice customer.
+      </p>
 
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>No</th>
-              <th>Layanan</th>
+              <th>Nama Layanan</th>
+              <th>Handled By</th>
               <th>Qty</th>
-              <th>Harga</th>
-              <th>Total</th>
+              <th>Harga (Rp)</th>
+              <th>Total (Rp)</th>
               <th></th>
             </tr>
           </thead>
-          <tbody id="serviceRows"></tbody>
+          <tbody id="itemsBody"></tbody>
         </table>
-      </div>
-
-      <div class="actions">
-        <button class="secondary" onclick="addService()">+ Tambah Layanan</button>
       </div>
 
       <div class="totals">
         <div class="total-row">
-          <span>Subtotal</span>
-          <strong id="subtotalText">Rp0</strong>
+          <span>Subtotal</span><strong id="subtotalText">Rp0</strong>
         </div>
-
-        <div class="total-row" style="align-items:center">
-          <div>
-            <label style="margin:0 0 8px">DISKON</label>
-            <div class="discount-controls">
-              <select id="discountType" aria-label="Jenis diskon">
-                <option value="rp">Rp</option>
-                <option value="percent">%</option>
-              </select>
-              <input id="discountValue" type="number" min="0"
-                step="any" value="0" aria-label="Nilai diskon">
-            </div>
+        <div class="field">
+          <label>DISKON</label>
+          <div class="grid">
+            <select id="discountType">
+              <option value="rp">Diskon Rp</option>
+              <option value="percent">Diskon %</option>
+            </select>
+            <input id="discountInput" type="number" min="0" step="any" value="0">
           </div>
-          <strong id="discountText">− Rp0</strong>
         </div>
-
-        <div class="total-row total-final">
-          <span>TOTAL</span>
-          <span id="totalText">Rp0</span>
+        <div class="total-row">
+          <span>Diskon</span><strong id="discountText">Rp0</strong>
+        </div>
+        <div class="total-row grand">
+          <span>TOTAL</span><strong id="totalText">Rp0</strong>
         </div>
       </div>
 
       <div class="actions">
-        <button class="primary" id="saveButton" onclick="saveInvoice()">
-          Simpan Invoice
-        </button>
-        <button class="gold" onclick="downloadPDF()">Download PDF</button>
-        <button class="secondary" onclick="downloadPNG()">Download PNG</button>
+        <button id="saveInvoiceBtn" class="btn primary" type="button">Simpan Invoice</button>
+        <button id="resetBtn" class="btn light" type="button">Reset Form</button>
       </div>
+      <div id="saveStatus" class="status"></div>
     </section>
 
-    <section class="card" id="invoicePreview">
-      <div class="preview-head">
-        <div class="logo">gnt</div>
-        <h2>GNT BEAUTY STUDIO</h2>
-        <p>Hair • Lashes • Nails • Spa • Wax</p>
+    <!-- PREVIEW CUSTOMER -->
+    <section id="previewSection" class="card hidden">
+      <div class="row">
+        <h2>Invoice Customer</h2>
+        <button id="closePreviewBtn" class="btn light">Tutup Preview</button>
       </div>
 
-      <div class="preview-content">
-        <div class="info-grid preview-info">
-          <div class="info-block">
-            <label>NAMA CUSTOMER</label>
-            <div id="previewCustomer" class="info-value">—</div>
-            <div style="height:18px"></div>
-            <label>INVOICE NUMBER</label>
-            <div id="previewNumber" class="info-value invoice-number">—</div>
+      <div id="invoicePreview">
+        <div class="invoice-brand">
+          <div>
+            <h2>GNT</h2>
+            <p>GURLSNEEDTHIS.ID</p>
+            <p>Beauty Studio · Jambi</p>
           </div>
+          <div class="invoice-label">INVOICE</div>
+        </div>
 
-          <div class="info-block">
-            <label>TANGGAL</label>
-            <div id="previewDate" class="info-value">—</div>
-            <div style="height:18px"></div>
-            <label>PAYMENT</label>
-            <div id="previewPayment" class="info-value">QRIS</div>
+        <div class="invoice-meta">
+          <div>
+            <div class="meta-label">CUSTOMER NAME</div>
+            <div id="pCustomer" class="meta-value">-</div>
+            <div class="meta-label">INVOICE NUMBER</div>
+            <div id="pInvoiceNumber" class="meta-value">-</div>
+          </div>
+          <div>
+            <div class="meta-label">DATE</div>
+            <div id="pDate" class="meta-value">-</div>
+            <div class="meta-label">PAYMENT</div>
+            <div id="pPayment" class="meta-value">-</div>
           </div>
         </div>
 
-        <div class="preview-table">
-          <table>
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Layanan</th>
-                <th class="center">Qty</th>
-                <th class="right">Harga</th>
-                <th class="right">Total</th>
-              </tr>
-            </thead>
-            <tbody id="previewRows">
-              <tr><td colspan="5" class="center">Belum ada layanan.</td></tr>
-            </tbody>
-          </table>
-        </div>
+        <table id="previewTable">
+          <thead>
+            <tr>
+              <th>DESCRIPTION</th>
+              <th class="num">QTY</th>
+              <th class="num">PRICE</th>
+              <th class="num">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody id="previewItems"></tbody>
+        </table>
 
-        <div class="totals">
+        <div class="invoice-total">
           <div class="total-row">
-            <span>Subtotal</span>
-            <strong id="previewSubtotal">Rp0</strong>
+            <span>Subtotal</span><strong id="pSubtotal">Rp0</strong>
           </div>
           <div class="total-row">
-            <span id="previewDiscountLabel">Diskon</span>
-            <strong id="previewDiscount">− Rp0</strong>
+            <span id="pDiscountLabel">Discount</span><strong id="pDiscount">Rp0</strong>
           </div>
-          <div class="total-row total-final">
-            <span>TOTAL</span>
-            <span id="previewTotal">Rp0</span>
+          <div class="total-row grand">
+            <span>TOTAL</span><strong id="pTotal">Rp0</strong>
           </div>
         </div>
 
-        <div class="preview-footer">
+        <div class="invoice-footer">
+          Thank you for visiting GNT Studio.<br>
           Instagram: @gurlsneedthis.id<br>
           WhatsApp: 0882-8746-8970
         </div>
       </div>
-    </section>
 
-    <section class="card">
-      <div class="history-top">
-        <h2 style="margin:0">Riwayat Invoice</h2>
-        <button class="secondary" onclick="loadHistory()">Refresh</button>
+      <div class="actions">
+        <button id="downloadPdfBtn" class="btn primary">Download PDF</button>
+        <button id="downloadPngBtn" class="btn gold">Download PNG</button>
+        <button id="printBtn" class="btn light">Print Invoice</button>
       </div>
-      <div id="historyList" style="margin-top:12px">Memuat riwayat...</div>
+      <div id="downloadStatus" class="status"></div>
     </section>
 
+    <!-- HISTORY -->
+    <section id="historySection" class="card hidden">
+      <div class="row">
+        <h2>Riwayat Invoice</h2>
+        <button id="refreshHistoryBtn" class="btn light">Refresh</button>
+      </div>
+      <div class="field">
+        <label for="historySearch">CARI INVOICE / CUSTOMER</label>
+        <input id="historySearch" placeholder="Nomor invoice atau nama customer">
+      </div>
+      <div id="historyList"><p class="muted">Memuat riwayat...</p></div>
+      <div id="historyStatus" class="status"></div>
+    </section>
   </section>
 </main>
 
-<footer>
-  GNT BEAUTY STUDIO<br>
-  Instagram: @gurlsneedthis.id · WhatsApp: 0882-8746-8970
-</footer>
-
 <script>
-/* =========================================
-   KONFIGURASI SUPABASE
-   Gunakan Project URL dan Publishable Key.
-   Jangan pernah masukkan service_role key.
-========================================= */
+/* =====================================================
+   KONFIGURASI SUPABASE GNT
+   Jangan masukkan service_role key ke file HTML.
+   ===================================================== */
 const SUPABASE_URL = "https://pqhdkpejgylcvynwwuxw.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_YWzEFBFE3xCftf8xF6fLgQ_A3EDhT-B";
+const SUPABASE_KEY = "sb_publishable_YWzEFBFE3xCftf8xF6fLgQ_A3EDh-T-B";
 
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const TEAM = ["Intan", "Wanda", "Dian", "Dea"];
 
+const $ = id => document.getElementById(id);
 let currentUser = null;
-let currentRole = null;
-let currentInvoiceId = null;
-let currentSavedNumber = null;
-let busy = false;
+let currentRole = "";
+let savedInvoice = null;
+let saving = false;
 
-const rupiah = n => new Intl.NumberFormat("id-ID", {
-  style: "currency",
-  currency: "IDR",
-  maximumFractionDigits: 0
-}).format(Number(n) || 0);
+function rupiah(value) {
+  return new Intl.NumberFormat("id-ID", {
+    style:"currency",
+    currency:"IDR",
+    maximumFractionDigits:0
+  }).format(Number(value) || 0);
+}
 
-function showMessage(id, message) {
-  const el = document.getElementById(id);
-  el.textContent = message;
-  el.classList.remove("hidden");
-}
-function clearMessage(id) {
-  document.getElementById(id).classList.add("hidden");
-}
-function escapeHTML(value) {
+function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;",
-    '"':"&quot;", "'":"&#39;"
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
   })[c]);
 }
-function localISODate() {
-  const d = new Date();
-  const offset = d.getTimezoneOffset() * 60000;
-  return new Date(d.getTime() - offset).toISOString().slice(0,10);
+
+function status(id, message, type="") {
+  $(id).textContent = message;
+  $(id).className = "status " + type;
 }
-function formatDate(date) {
-  if (!date) return "—";
-  const d = new Date(date + "T12:00:00");
-  return d.toLocaleDateString("id-ID", {
-    day:"2-digit", month:"short", year:"numeric"
+
+function todayLocal() {
+  const d = new Date();
+  return new Date(d.getTime() - d.getTimezoneOffset()*60000)
+    .toISOString().slice(0,10);
+}
+
+function prettyDate(value) {
+  if (!value) return "-";
+  return new Date(value+"T00:00:00").toLocaleDateString("en-GB", {
+    day:"2-digit",month:"short",year:"numeric"
   });
 }
-function getServices() {
-  return [...document.querySelectorAll("#serviceRows tr")].map(row => ({
-    service_name: row.querySelector(".service-input").value.trim(),
-    quantity: Math.max(1, Math.floor(Number(row.querySelector(".qty-input").value) || 1)),
-    price: Math.max(0, Number(row.querySelector(".price-input").value) || 0)
+
+function owner() {
+  return String(currentRole).toLowerCase() === "owner";
+}
+
+function staffOptions(selected="") {
+  return `<option value="">Pilih staf</option>` +
+    TEAM.map(n => `<option value="${n}" ${selected===n?"selected":""}>${n}</option>`).join("");
+}
+
+function addItem(item={}) {
+  const tr = document.createElement("tr");
+  tr.className = "item-row";
+  tr.innerHTML = `
+    <td><input class="service" placeholder="Nama layanan" value="${esc(item.service_name||"")}"></td>
+    <td><select class="staff">${staffOptions(item.handled_by||"")}</select></td>
+    <td><input class="qty" type="number" min="1" step="1" value="${Number(item.quantity||1)}"></td>
+    <td><input class="price" type="number" min="0" step="1" value="${Number(item.price||0)}"></td>
+    <td class="line num">Rp0</td>
+    <td><button class="btn danger remove" type="button" style="padding:7px 9px">×</button></td>
+  `;
+  $("itemsBody").appendChild(tr);
+  tr.querySelectorAll("input").forEach(el => el.addEventListener("input", totals));
+  tr.querySelector(".remove").addEventListener("click", () => {
+    tr.remove();
+    totals();
+  });
+  totals();
+}
+
+function itemsFromForm() {
+  return [...document.querySelectorAll(".item-row")].map(tr => ({
+    service_name:tr.querySelector(".service").value.trim(),
+    handled_by:tr.querySelector(".staff").value,
+    quantity:Math.max(1,Math.floor(Number(tr.querySelector(".qty").value)||1)),
+    price:Math.max(0,Number(tr.querySelector(".price").value)||0)
   }));
 }
-function calculate() {
-  const items = getServices();
-  const subtotal = items.reduce((sum, x) => sum + x.quantity * x.price, 0);
-  const rawDiscount = Math.max(0, Number(document.getElementById("discountValue").value) || 0);
-  const type = document.getElementById("discountType").value;
-  const discount = Math.min(subtotal,
-    type === "percent" ? subtotal * Math.min(rawDiscount,100) / 100 : rawDiscount
-  );
-  const total = Math.max(0, subtotal - discount);
 
-  document.getElementById("subtotalText").textContent = rupiah(subtotal);
-  document.getElementById("discountText").textContent = "− " + rupiah(discount);
-  document.getElementById("totalText").textContent = rupiah(total);
-
-  document.getElementById("previewSubtotal").textContent = rupiah(subtotal);
-  document.getElementById("previewDiscount").textContent = "− " + rupiah(discount);
-  document.getElementById("previewTotal").textContent = rupiah(total);
-
-  const discountLabel = type === "percent"
-    ? "Diskon (" + Math.min(rawDiscount,100) + "%)"
-    : "Diskon";
-  document.getElementById("previewDiscountLabel").textContent = discountLabel;
-
-  document.getElementById("previewCustomer").textContent =
-    document.getElementById("customerName").value.trim() || "—";
-  document.getElementById("previewNumber").textContent =
-    document.getElementById("invoiceNumber").value || "—";
-  document.getElementById("previewDate").textContent =
-    formatDate(document.getElementById("invoiceDate").value);
-  document.getElementById("previewPayment").textContent =
-    document.getElementById("paymentMethod").value;
-
-  const previewRows = document.getElementById("previewRows");
-  const filled = items.filter(x => x.service_name);
-  previewRows.innerHTML = filled.length ? filled.map((x,i) => `
-    <tr>
-      <td>${i+1}</td>
-      <td>${escapeHTML(x.service_name)}</td>
-      <td class="center">${x.quantity}</td>
-      <td class="right">${rupiah(x.price)}</td>
-      <td class="right">${rupiah(x.quantity*x.price)}</td>
-    </tr>
-  `).join("") : '<tr><td colspan="5" class="center">Belum ada layanan.</td></tr>';
-
-  return { items, subtotal, discount, total, type, rawDiscount };
-}
-function addService(name="", quantity=1, price=0) {
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td class="center row-number"></td>
-    <td><input class="service-input" placeholder="Nama layanan" value="${escapeHTML(name)}"></td>
-    <td><input class="qty-input" type="number" min="1" step="1" value="${quantity}"></td>
-    <td><input class="price-input" type="number" min="0" step="1000" value="${price}"></td>
-    <td class="right line-total">Rp0</td>
-    <td><button type="button" class="danger remove-row">×</button></td>
-  `;
-  row.querySelectorAll("input").forEach(input => input.addEventListener("input", updateRows));
-  row.querySelector(".remove-row").addEventListener("click", () => {
-    row.remove();
-    updateRows();
+function totals() {
+  const items = itemsFromForm();
+  items.forEach((it,i) => {
+    document.querySelectorAll(".item-row")[i].querySelector(".line").textContent =
+      rupiah(it.quantity*it.price);
   });
-  document.getElementById("serviceRows").appendChild(row);
-  updateRows();
+
+  const subtotal = items.reduce((s,it)=>s+it.quantity*it.price,0);
+  const entered = Math.max(0,Number($("discountInput").value)||0);
+  const discountType = $("discountType").value;
+  let discount = discountType==="percent"
+    ? subtotal*Math.min(entered,100)/100
+    : entered;
+  discount = Math.round(Math.min(subtotal,discount));
+  const total = Math.max(0,subtotal-discount);
+
+  $("subtotalText").textContent = rupiah(subtotal);
+  $("discountText").textContent = rupiah(discount);
+  $("totalText").textContent = rupiah(total);
+  return {items,subtotal,discount,total,discountType};
 }
-function updateRows() {
-  [...document.querySelectorAll("#serviceRows tr")].forEach((row,i) => {
-    row.querySelector(".row-number").textContent = i+1;
-    const qty = Math.max(1, Math.floor(Number(row.querySelector(".qty-input").value) || 1));
-    const price = Math.max(0, Number(row.querySelector(".price-input").value) || 0);
-    row.querySelector(".line-total").textContent = rupiah(qty*price);
-  });
-  calculate();
+
+function tab(which) {
+  $("createSection").classList.toggle("hidden",which!=="create");
+  $("historySection").classList.toggle("hidden",which!=="history");
+  if (which==="history") loadHistory();
 }
-function resetForm() {
-  currentInvoiceId = null;
-  currentSavedNumber = null;
-  document.getElementById("customerName").value = "";
-  document.getElementById("invoiceDate").value = localISODate();
-  document.getElementById("paymentMethod").value = "QRIS";
-  document.getElementById("discountType").value = "rp";
-  document.getElementById("discountValue").value = "0";
-  document.getElementById("serviceRows").innerHTML = "";
-  addService();
-  setNextNumber();
+
+async function memberRole(user) {
+  const {data,error} = await db.from("gnt_members")
+    .select("role").eq("user_id",user.id).maybeSingle();
+  if (error) throw new Error("Gagal membaca role: "+error.message);
+  if (!data?.role) throw new Error("Akun belum terdaftar di gnt_members.");
+  return data.role;
 }
-async function setNextNumber() {
-  const numberInput = document.getElementById("invoiceNumber");
-  numberInput.value = "Memuat...";
-  try {
-    const { data, error } = await db.from("invoices")
-      .select("invoice_number")
-      .order("created_at", { ascending:false })
-      .limit(100);
-    if (error) throw error;
-    let max = 0;
-    (data || []).forEach(row => {
-      const match = String(row.invoice_number || "").match(/GNT-(\d+)/i);
-      if (match) max = Math.max(max, Number(match[1]));
-    });
-    numberInput.value = "GNT-" + String(max+1).padStart(4,"0");
-  } catch (e) {
-    numberInput.value = "GNT-" + String(Date.now()).slice(-4);
-    showMessage("appMessage",
-      "Nomor invoice sementara dibuat. Periksa akses tabel invoices jika riwayat belum bisa dimuat.");
-  }
-  calculate();
-}
-function newInvoice() {
-  resetForm();
-  clearMessage("appMessage");
-}
-async function login() {
-  clearMessage("loginMessage");
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-  if (!email || !password) {
-    showMessage("loginMessage","Isi email dan password terlebih dahulu.");
-    return;
-  }
-  const btn = document.getElementById("loginButton");
-  btn.disabled = true;
-  btn.textContent = "Memproses...";
-  try {
-    const { data, error } = await db.auth.signInWithPassword({email,password});
-    if (error) throw error;
-    currentUser = data.user;
-    await enterApp();
-  } catch (e) {
-    showMessage("loginMessage","Login gagal: " + e.message);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "Login";
-  }
-}
-async function enterApp() {
-  const { data: member, error } = await db.from("gnt_members")
-    .select("role")
-    .eq("user_id",currentUser.id)
-    .maybeSingle();
-  if (error || !member) {
-    await db.auth.signOut();
-    currentUser = null;
-    throw new Error("Akun ini belum terdaftar sebagai anggota GNT. Periksa tabel gnt_members.");
-  }
-  currentRole = member.role;
-  document.getElementById("loginCard").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  document.getElementById("userLabel").textContent =
-    currentUser.email + " · " + currentRole;
-  resetForm();
+
+async function enterApp(user) {
+  currentUser = user;
+  currentRole = await memberRole(user);
+  $("loginCard").classList.add("hidden");
+  $("appArea").classList.remove("hidden");
+  $("userInfo").textContent = `${user.email} · Role: ${currentRole}`;
+  $("invoiceDate").value = todayLocal();
+  if (!$("itemsBody").children.length) addItem();
   await loadHistory();
 }
+
 async function logout() {
   await db.auth.signOut();
   currentUser = null;
-  currentRole = null;
-  document.getElementById("app").classList.add("hidden");
-  document.getElementById("loginCard").classList.remove("hidden");
+  currentRole = "";
+  $("appArea").classList.add("hidden");
+  $("loginCard").classList.remove("hidden");
 }
-async function saveInvoice() {
-  clearMessage("appMessage");
-  if (!currentUser) {
-    showMessage("appMessage","Silakan login terlebih dahulu.");
-    return;
-  }
-  if (busy) return;
 
-  const customer = document.getElementById("customerName").value.trim();
-  const date = document.getElementById("invoiceDate").value;
-  const invoiceNumber = document.getElementById("invoiceNumber").value.trim();
-  const payment = document.getElementById("paymentMethod").value;
-  const result = calculate();
-  const items = result.items.filter(x => x.service_name);
-
-  if (!customer) {
-    showMessage("appMessage","Nama customer wajib diisi.");
-    return;
-  }
-  if (!date) {
-    showMessage("appMessage","Tanggal invoice wajib diisi.");
-    return;
-  }
-  if (!items.length) {
-    showMessage("appMessage","Tambahkan minimal satu layanan.");
-    return;
-  }
-
-  busy = true;
-  const btn = document.getElementById("saveButton");
-  btn.disabled = true;
-  btn.textContent = "Menyimpan...";
-
+$("loginForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  $("loginBtn").disabled = true;
+  status("loginStatus","Sedang login...");
   try {
-    const invoiceData = {
-      invoice_number: invoiceNumber,
-      customer_name: customer,
-      invoice_date: date,
-      payment_method: payment,
-      subtotal: result.subtotal,
-      discount: result.discount,
-      total: result.total,
-      created_by: currentUser.id
+    const {data,error} = await db.auth.signInWithPassword({
+      email:$("loginEmail").value.trim(),
+      password:$("loginPassword").value
+    });
+    if (error) throw error;
+    await enterApp(data.user);
+    status("loginStatus","");
+  } catch(err) {
+    status("loginStatus",err.message||"Login gagal.","error");
+    await db.auth.signOut();
+  } finally {
+    $("loginBtn").disabled = false;
+  }
+});
+
+$("logoutBtn").addEventListener("click",logout);
+$("newTabBtn").addEventListener("click",()=>{
+  $("previewSection").classList.add("hidden");
+  tab("create");
+});
+$("historyTabBtn").addEventListener("click",()=>tab("history"));
+$("addItemBtn").addEventListener("click",()=>addItem());
+$("discountInput").addEventListener("input",totals);
+$("discountType").addEventListener("change",totals);
+
+$("resetBtn").addEventListener("click",()=>{
+  if (!confirm("Reset form invoice ini?")) return;
+  $("customerName").value="";
+  $("invoiceDate").value=todayLocal();
+  $("paymentMethod").selectedIndex=0;
+  $("discountType").value="rp";
+  $("discountInput").value="0";
+  $("itemsBody").innerHTML="";
+  $("previewSection").classList.add("hidden");
+  status("saveStatus","");
+  addItem();
+});
+
+/*
+ * Nomor invoice diambil dari PostgreSQL sequence.
+ * Sequence aman dari bentrok saat dua perangkat meminta nomor bersamaan.
+ * PostgreSQL sequence tidak menjamin nomor tanpa celah jika transaksi gagal.
+ */
+async function nextInvoiceNumber() {
+  const {data,error} = await db.rpc("next_gnt_invoice_number");
+  if (error) throw new Error("Gagal membuat nomor invoice: "+error.message);
+  if (typeof data!=="string" || !/^GNT-\d+$/.test(data)) {
+    throw new Error("Format nomor invoice tidak valid.");
+  }
+  return data;
+}
+
+function validate(items) {
+  if (!$("customerName").value.trim()) throw new Error("Nama customer wajib diisi.");
+  if (!$("invoiceDate").value) throw new Error("Tanggal wajib diisi.");
+  if (!items.length || !items.some(i=>i.service_name)) {
+    throw new Error("Tambahkan minimal satu layanan.");
+  }
+  for (const i of items) {
+    if (!i.service_name) throw new Error("Nama layanan tidak boleh kosong.");
+    if (!i.handled_by) throw new Error(`Pilih staf untuk layanan "${i.service_name}".`);
+  }
+}
+
+async function saveInvoice() {
+  if (saving) return;
+  saving = true;
+  $("saveInvoiceBtn").disabled = true;
+
+  let invoiceId = null;
+  try {
+    const calc = totals();
+    validate(calc.items);
+    status("saveStatus","Menyimpan invoice...");
+
+    const number = await nextInvoiceNumber();
+
+    const payload = {
+      invoice_number:number,
+      customer_name:$("customerName").value.trim(),
+      invoice_date:$("invoiceDate").value,
+      payment_method:$("paymentMethod").value,
+      subtotal:calc.subtotal,
+      discount:calc.discount,
+      discount_type:calc.discountType,
+      total:calc.total,
+      created_by:currentUser.id
     };
 
-    const { data: invoice, error: invoiceError } = await db
-      .from("invoices").insert(invoiceData).select().single();
-    if (invoiceError) throw invoiceError;
+    const {data:invoice,error:invError} = await db
+      .from("invoices").insert(payload).select().single();
+    if (invError) throw invError;
+    invoiceId = invoice.id;
 
-    const itemData = items.map(x => ({
-      invoice_id: invoice.id,
-      service_name: x.service_name,
-      quantity: x.quantity,
-      price: x.price
+    const payloadItems = calc.items.map(i=>({
+      invoice_id:invoice.id,
+      service_name:i.service_name,
+      quantity:i.quantity,
+      price:i.price,
+      handled_by:i.handled_by
     }));
 
-    const { error: itemError } = await db.from("invoice_items").insert(itemData);
+    const {error:itemError} = await db.from("invoice_items").insert(payloadItems);
     if (itemError) {
-      showMessage("appMessage",
-        "Invoice utama tersimpan, tetapi item layanan gagal disimpan: " + itemError.message +
-        ". Jangan klik Simpan lagi sebelum memeriksa riwayat.");
-      await loadHistory();
+      // Best-effort cleanup of an invoice header if its line items fail.
+      await db.from("invoices").delete().eq("id",invoice.id);
+      throw new Error("Layanan gagal disimpan: "+itemError.message);
+    }
+
+    savedInvoice = invoice;
+    renderPreview(invoice,calc.items,calc);
+    $("previewSection").classList.remove("hidden");
+    status("saveStatus",`Invoice ${number} berhasil disimpan.`,"success");
+    status("downloadStatus","");
+    await loadHistory();
+  } catch(err) {
+    status("saveStatus",err.message||"Gagal menyimpan invoice.","error");
+  } finally {
+    saving = false;
+    $("saveInvoiceBtn").disabled = false;
+  }
+}
+
+$("saveInvoiceBtn").addEventListener("click",saveInvoice);
+$("closePreviewBtn").addEventListener("click",()=>$("previewSection").classList.add("hidden"));
+
+function renderPreview(invoice,items,calc=null) {
+  const subtotal = calc ? calc.subtotal : Number(invoice.subtotal||0);
+  const discount = calc ? calc.discount : Number(invoice.discount||0);
+  const total = calc ? calc.total : Number(invoice.total||0);
+
+  $("pCustomer").textContent=invoice.customer_name||"-";
+  $("pInvoiceNumber").textContent=invoice.invoice_number||"-";
+  $("pDate").textContent=prettyDate(invoice.invoice_date);
+  $("pPayment").textContent=invoice.payment_method||"-";
+  $("pSubtotal").textContent=rupiah(subtotal);
+  $("pDiscount").textContent="-"+rupiah(discount);
+  $("pDiscountLabel").textContent="Discount";
+  $("pTotal").textContent=rupiah(total);
+
+  // Handled By sengaja tidak dimasukkan ke tabel invoice customer.
+  $("previewItems").innerHTML=items.map(i=>`
+    <tr>
+      <td>${esc(i.service_name)}</td>
+      <td class="num">${Number(i.quantity)}</td>
+      <td class="num">${rupiah(i.price)}</td>
+      <td class="num">${rupiah(Number(i.quantity)*Number(i.price))}</td>
+    </tr>
+  `).join("");
+}
+
+async function downloadFile(type) {
+  try {
+    status("downloadStatus","Menyiapkan file...");
+    const canvas = await html2canvas($("invoicePreview"),{
+      scale:2,backgroundColor:"#ffffff",useCORS:true
+    });
+    const filename=(savedInvoice?.invoice_number||"GNT-Invoice")
+      .replace(/[^a-zA-Z0-9_-]/g,"_");
+
+    if (type==="png") {
+      const link=document.createElement("a");
+      link.download=filename+".png";
+      link.href=canvas.toDataURL("image/png");
+      link.click();
+    } else {
+      const {jsPDF}=window.jspdf;
+      const pdf=new jsPDF("p","mm","a4");
+      const pageW=pdf.internal.pageSize.getWidth();
+      const pageH=pdf.internal.pageSize.getHeight();
+      const margin=10;
+      const width=pageW-2*margin;
+      const height=canvas.height*width/canvas.width;
+      const img=canvas.toDataURL("image/png");
+      let offset=0;
+      pdf.addImage(img,"PNG",margin,margin,width,height);
+      offset=pageH-2*margin;
+      while (height-offset>0) {
+        pdf.addPage();
+        pdf.addImage(img,"PNG",margin,margin-offset,width,height);
+        offset+=pageH-2*margin;
+      }
+      pdf.save(filename+".pdf");
+    }
+    status("downloadStatus","File berhasil dibuat.","success");
+  } catch(err) {
+    status("downloadStatus","Gagal membuat file: "+err.message,"error");
+  }
+}
+
+$("downloadPdfBtn").addEventListener("click",()=>downloadFile("pdf"));
+$("downloadPngBtn").addEventListener("click",()=>downloadFile("png"));
+$("printBtn").addEventListener("click",()=>window.print());
+
+async function loadHistory() {
+  if (!currentUser) return;
+  $("historyList").innerHTML='<p class="muted">Memuat riwayat...</p>';
+
+  try {
+    const {data,error}=await db.from("invoices")
+      .select("id,invoice_number,customer_name,invoice_date,payment_method,subtotal,discount,discount_type,total,created_at")
+      .order("created_at",{ascending:false}).limit(200);
+    if (error) throw error;
+
+    const q=$("historySearch").value.trim().toLowerCase();
+    const list=(data||[]).filter(i=>
+      String(i.invoice_number||"").toLowerCase().includes(q) ||
+      String(i.customer_name||"").toLowerCase().includes(q)
+    );
+
+    if (!list.length) {
+      $("historyList").innerHTML='<p class="muted">Belum ada invoice yang cocok.</p>';
+      status("historyStatus","");
       return;
     }
 
-    currentInvoiceId = invoice.id;
-    currentSavedNumber = invoice.invoice_number;
-    showMessage("appMessage","Invoice " + invoice.invoice_number + " berhasil disimpan.");
-    await loadHistory();
-    await setNextNumber();
-  } catch (e) {
-    showMessage("appMessage","Gagal menyimpan invoice: " + e.message);
-  } finally {
-    busy = false;
-    btn.disabled = false;
-    btn.textContent = "Simpan Invoice";
-  }
-}
-async function loadHistory() {
-  const target = document.getElementById("historyList");
-  target.textContent = "Memuat riwayat...";
-  try {
-    const { data, error } = await db.from("invoices")
-      .select("id,invoice_number,customer_name,invoice_date,payment_method,total,created_at")
-      .order("created_at",{ascending:false}).limit(50);
-    if (error) throw error;
-    if (!data || !data.length) {
-      target.textContent = "Belum ada invoice tersimpan.";
-      return;
-    }
-    target.innerHTML = data.map(row => `
+    $("historyList").innerHTML=list.map(i=>`
       <div class="history-item">
-        <div class="history-top">
-          <div>
-            <strong>${escapeHTML(row.invoice_number)}</strong>
-            <div>${escapeHTML(row.customer_name)}</div>
-            <small>${formatDate(row.invoice_date)} · ${escapeHTML(row.payment_method)}</small>
-            <div style="margin-top:7px;font-weight:bold">${rupiah(row.total)}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <button class="secondary" onclick="openInvoice('${row.id}')">Lihat</button>
-            ${currentRole === "owner" ?
-              `<button class="danger" onclick="deleteInvoice('${row.id}','${escapeHTML(row.invoice_number)}')">Hapus</button>` : ""}
-          </div>
+        <div>
+          <strong>${esc(i.invoice_number)}</strong>
+          <p>${esc(i.customer_name)} · ${esc(prettyDate(i.invoice_date))}</p>
+          <p>${esc(i.payment_method||"-")} · <strong>${esc(rupiah(i.total))}</strong></p>
+        </div>
+        <div class="history-actions">
+          <button class="btn light view" data-id="${esc(i.id)}">Lihat</button>
+          ${owner()?`<button class="btn danger delete" data-id="${esc(i.id)}" data-no="${esc(i.invoice_number)}">Hapus</button>`:""}
         </div>
       </div>
     `).join("");
-  } catch (e) {
-    target.textContent = "Riwayat belum bisa dimuat: " + e.message;
+
+    document.querySelectorAll(".view").forEach(b=>
+      b.addEventListener("click",()=>viewInvoice(b.dataset.id)));
+    document.querySelectorAll(".delete").forEach(b=>
+      b.addEventListener("click",()=>deleteInvoice(b.dataset.id,b.dataset.no)));
+    status("historyStatus","");
+  } catch(err) {
+    $("historyList").innerHTML="";
+    status("historyStatus","Gagal memuat riwayat: "+err.message,"error");
   }
 }
-async function openInvoice(id) {
-  clearMessage("appMessage");
+
+async function viewInvoice(id) {
+  status("historyStatus","Memuat invoice...");
   try {
-    const { data: invoice, error } = await db.from("invoices")
+    const {data:invoice,error:invError}=await db.from("invoices")
       .select("*").eq("id",id).single();
-    if (error) throw error;
-    const { data: items, error: itemError } = await db.from("invoice_items")
-      .select("service_name,quantity,price").eq("invoice_id",id);
+    if (invError) throw invError;
+
+    const {data:items,error:itemError}=await db.from("invoice_items")
+      .select("service_name,quantity,price,handled_by")
+      .eq("invoice_id",id);
     if (itemError) throw itemError;
 
-    currentInvoiceId = invoice.id;
-    currentSavedNumber = invoice.invoice_number;
-    document.getElementById("customerName").value = invoice.customer_name || "";
-    document.getElementById("invoiceDate").value = invoice.invoice_date || localISODate();
-    document.getElementById("invoiceNumber").value = invoice.invoice_number || "";
-    document.getElementById("paymentMethod").value = invoice.payment_method || "QRIS";
-    document.getElementById("discountType").value = "rp";
-    document.getElementById("discountValue").value = invoice.discount || 0;
-    document.getElementById("serviceRows").innerHTML = "";
-    (items || []).forEach(x => addService(x.service_name,x.quantity,x.price));
-    if (!items || !items.length) addService();
-    calculate();
-    showMessage("appMessage","Menampilkan invoice " + invoice.invoice_number + ". Invoice yang dibuka adalah data tersimpan; jangan simpan ulang jika tidak ingin membuat invoice baru.");
-    document.getElementById("invoicePreview").scrollIntoView({behavior:"smooth"});
-  } catch (e) {
-    showMessage("appMessage","Gagal membuka invoice: " + e.message);
+    savedInvoice=invoice;
+    renderPreview(invoice,items||[]);
+    $("previewSection").classList.remove("hidden");
+    $("previewSection").scrollIntoView({behavior:"smooth"});
+    status("historyStatus","");
+  } catch(err) {
+    status("historyStatus","Gagal membuka invoice: "+err.message,"error");
   }
 }
-async function deleteInvoice(id, number) {
-  if (currentRole !== "owner") {
-    showMessage("appMessage","Hanya owner yang dapat menghapus invoice.");
+
+async function deleteInvoice(id,number) {
+  if (!owner()) {
+    status("historyStatus","Hanya owner yang dapat menghapus invoice.","error");
     return;
   }
-  if (!confirm("Hapus invoice " + number + "? Tindakan ini tidak bisa dibatalkan.")) return;
+  if (!confirm(`Hapus invoice ${number}? Tindakan ini tidak dapat dibatalkan.`)) return;
+
   try {
-    const { error: itemsError } = await db.from("invoice_items").delete().eq("invoice_id",id);
-    if (itemsError) throw itemsError;
-    const { error } = await db.from("invoices").delete().eq("id",id);
-    if (error) throw error;
-    showMessage("appMessage","Invoice berhasil dihapus.");
+    const {error:itemError}=await db.from("invoice_items")
+      .delete().eq("invoice_id",id);
+    if (itemError) throw itemError;
+
+    const {error:invoiceError}=await db.from("invoices")
+      .delete().eq("id",id);
+    if (invoiceError) throw invoiceError;
+
+    status("historyStatus",`${number} berhasil dihapus.`,"success");
     await loadHistory();
-    if (currentInvoiceId === id) resetForm();
-  } catch (e) {
-    showMessage("appMessage","Gagal menghapus invoice: " + e.message);
+  } catch(err) {
+    status("historyStatus","Gagal menghapus invoice: "+err.message,"error");
   }
 }
-async function downloadPNG() {
-  const el = document.getElementById("invoicePreview");
+
+$("refreshHistoryBtn").addEventListener("click",loadHistory);
+$("historySearch").addEventListener("input",loadHistory);
+
+(async function init() {
+  $("invoiceDate").value=todayLocal();
+  addItem();
+
   try {
-    const canvas = await html2canvas(el,{scale:2,backgroundColor:"#fffdfa"});
-    const link = document.createElement("a");
-    link.download = (document.getElementById("invoiceNumber").value || "GNT-Invoice") + ".png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
-  } catch (e) {
-    showMessage("appMessage","Gagal membuat PNG: " + e.message);
+    const {data,error}=await db.auth.getSession();
+    if (error) throw error;
+    if (data.session?.user) await enterApp(data.session.user);
+  } catch(err) {
+    status("loginStatus",err.message,"error");
   }
-}
-async function downloadPDF() {
-  const el = document.getElementById("invoicePreview");
-  try {
-    const canvas = await html2canvas(el,{scale:2,backgroundColor:"#fffdfa"});
-    const img = canvas.toDataURL("image/png");
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({orientation:"portrait",unit:"mm",format:"a4"});
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const margin = 10;
-    const width = pageWidth - margin*2;
-    const height = canvas.height * width / canvas.width;
-    const finalHeight = Math.min(height,pageHeight-margin*2);
-    pdf.addImage(img,"PNG",margin,margin,width,finalHeight);
-    pdf.save((document.getElementById("invoiceNumber").value || "GNT-Invoice") + ".pdf");
-  } catch (e) {
-    showMessage("appMessage","Gagal membuat PDF: " + e.message);
-  }
-}
 
-["customerName","invoiceDate","paymentMethod","discountType","discountValue"]
-  .forEach(id => document.getElementById(id).addEventListener("input",calculate));
-
-document.getElementById("invoiceDate").value = localISODate();
-addService();
-
-db.auth.getSession().then(async ({data}) => {
-  if (data.session?.user) {
-    currentUser = data.session.user;
-    try {
-      await enterApp();
-    } catch (e) {
-      showMessage("loginMessage",e.message);
+  db.auth.onAuthStateChange((event)=>{
+    if (event==="SIGNED_OUT") {
+      $("appArea").classList.add("hidden");
+      $("loginCard").classList.remove("hidden");
     }
-  }
-});
-
-db.auth.onAuthStateChange((_event, session) => {
-  if (!session) {
-    currentUser = null;
-    currentRole = null;
-    document.getElementById("app").classList.add("hidden");
-    document.getElementById("loginCard").classList.remove("hidden");
-  }
-});
+  });
+})();
 </script>
 </body>
 </html>
